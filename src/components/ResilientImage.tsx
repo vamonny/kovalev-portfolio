@@ -51,6 +51,7 @@ export function ResilientImage({
         onError={() => setFailed(true)}
         className={imgClassName}
         loading="lazy"
+        decoding="async"
       />
     </div>
   );

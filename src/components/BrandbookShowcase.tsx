@@ -160,6 +160,7 @@ export function BrandbookShowcase({
                 <img
                   src={currentSlide.src}
                   alt={t(currentSlide.title)}
+                  decoding="async"
                   className="w-full h-full object-contain transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.015]"
                 />
               </div>
@@ -250,6 +251,7 @@ export function BrandbookShowcase({
                       src={slide.src}
                       alt={t(slide.title)}
                       loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   </div>

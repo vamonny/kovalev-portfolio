@@ -151,6 +151,7 @@ export function LogofolioShowcase({
             <img
               src={current.src}
               alt={`${current.brand} — ${t(current.niche)}`}
+              decoding="async"
               className="w-full h-full object-contain transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.03]"
             />
             <span className="absolute top-3 right-3 w-8 h-8 bg-[#0B0B0B]/80 text-[#EFEFE9] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -254,6 +255,7 @@ export function LogofolioShowcase({
                   src={plate.src}
                   alt={plate.brand}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-contain transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.06]"
                 />
               </div>

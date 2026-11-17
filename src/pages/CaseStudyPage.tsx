@@ -157,6 +157,7 @@ export function CaseStudyPage() {
                 <img
                   src={project.heroImage}
                   alt={t(project.title)}
+                  decoding="async"
                   className="w-full h-auto block transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.02]"
                 />
               </button>
@@ -601,6 +602,7 @@ export function CaseStudyPage() {
             <img
               src={lightboxImage.src}
               alt={lightboxImage.caption}
+              decoding="async"
               className={`w-full h-full max-h-[78vh] object-contain ${
                 project.coverBg === '#FFFFFF' ? 'bg-white' : 'bg-[#0B0B0B]'
               }`}

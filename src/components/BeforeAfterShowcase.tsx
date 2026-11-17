@@ -139,6 +139,7 @@ export function BeforeAfterShowcase({
           src={active.afterSrc}
           alt={`${t(active.label)} — ${lang === 'ru' ? 'После' : 'After'}`}
           draggable={false}
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover object-top"
         />
 
@@ -153,6 +154,7 @@ export function BeforeAfterShowcase({
             src={active.beforeSrc}
             alt={`${t(active.label)} — ${lang === 'ru' ? 'До' : 'Before'}`}
             draggable={false}
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover object-top"
           />
         </div>
@@ -260,6 +262,8 @@ export function BeforeAfterShowcase({
                   <img
                     src={plate.src}
                     alt={t(plate.caption)}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.04]"
                   />
                 </div>

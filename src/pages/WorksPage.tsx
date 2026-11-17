@@ -25,12 +25,12 @@ interface ProjectPreviewPack {
 
 const PREVIEW_PACKS: Record<string, ProjectPreviewPack> = {
   'slot-01': {
-    mainSrc: '/assets/aistudio/Screenshot_2026-05-16_184350_51c20aa2.png',
+    mainSrc: '/assets/aistudio/Screenshot_2026-05-16_184350_51c20aa2.webp',
     mainBg: '#FFFFFF',
     strip: [
-      { src: '/assets/aistudio/image_62a6c9c4.png', bg: '#FFFFFF', isContain: true },
-      { src: '/assets/aistudio/Screenshot_2026-05-16_184441_cc36e6e8.png', bg: '#FFFFFF' },
-      { src: '/assets/aistudio/Screenshot_2026-05-16_184505_8a77c64a.png', bg: '#FFFFFF' },
+      { src: '/assets/aistudio/image_62a6c9c4.webp', bg: '#FFFFFF', isContain: true },
+      { src: '/assets/aistudio/Screenshot_2026-05-16_184441_cc36e6e8.webp', bg: '#FFFFFF' },
+      { src: '/assets/aistudio/Screenshot_2026-05-16_184505_8a77c64a.webp', bg: '#FFFFFF' },
     ],
     scopeSummary: {
       ru: 'Многостраничный сайт · 4 пары До/После · ГОСТ и SEO',
@@ -38,12 +38,12 @@ const PREVIEW_PACKS: Record<string, ProjectPreviewPack> = {
     },
   },
   'slot-02': {
-    mainSrc: '/assets/aistudio/4_becce05d.png',
+    mainSrc: '/assets/aistudio/4_becce05d.webp',
     mainBg: '#121318',
     strip: [
-      { src: '/assets/aistudio/image_cf7f3a44.png', bg: '#1D1E26' },
-      { src: '/assets/aistudio/______d804c5ad.png', bg: '#EDEDEF' },
-      { src: '/assets/aistudio/f_64769fa72e404262_19048e6c.png', bg: '#090B0E' },
+      { src: '/assets/aistudio/image_cf7f3a44.webp', bg: '#1D1E26' },
+      { src: '/assets/aistudio/______d804c5ad.webp', bg: '#EDEDEF' },
+      { src: '/assets/aistudio/f_64769fa72e404262_19048e6c.webp', bg: '#090B0E' },
     ],
     scopeSummary: {
       ru: '5 товарных серий · Фен, iPhone, Мышь, Чайник, Носки',
@@ -54,7 +54,7 @@ const PREVIEW_PACKS: Record<string, ProjectPreviewPack> = {
     mainSrc: '/assets/encyclopedia/spread-01.jpg',
     mainBg: '#F3EBDC',
     strip: [
-      { src: '/assets/aistudio/image_15316a87.png', bg: '#F3EBDC' },
+      { src: '/assets/aistudio/image_15316a87.webp', bg: '#F3EBDC' },
       { src: '/assets/encyclopedia/spread-09.jpg', bg: '#F3EBDC' },
       { src: '/assets/encyclopedia/spread-22.jpg', bg: '#F3EBDC' },
     ],
@@ -78,7 +78,7 @@ const PREVIEW_PACKS: Record<string, ProjectPreviewPack> = {
     },
   },
   'slot-05': {
-    mainSrc: '/assets/aistudio/image_f0f056c2.png',
+    mainSrc: '/assets/aistudio/image_f0f056c2.webp',
     mainIsContain: true,
     mainBg: '#0D080E',
     strip: [
@@ -92,12 +92,12 @@ const PREVIEW_PACKS: Record<string, ProjectPreviewPack> = {
     },
   },
   'slot-06': {
-    mainSrc: '/assets/aistudio/________1_v2_54930af9.png',
+    mainSrc: '/assets/aistudio/________1_v2_54930af9.webp',
     mainBg: '#DCE1E6',
     strip: [
       { src: '/assets/aistudio/_____1_14cdffdb.png', bg: '#070E1A' },
-      { src: '/assets/aistudio/Frame_2_15061e1a.png', bg: '#FFFFFF', isContain: true },
-      { src: '/assets/aistudio/_____-Photoroom_1_e7ba0eea.png', bg: '#FFFFFF', isContain: true },
+      { src: '/assets/aistudio/Frame_2_15061e1a.webp', bg: '#FFFFFF', isContain: true },
+      { src: '/assets/aistudio/_____-Photoroom_1_e7ba0eea.webp', bg: '#FFFFFF', isContain: true },
     ],
     scopeSummary: {
       ru: '11 носителей · Лого, паттерн, полиграфия, мерч и веб UI/UX',
@@ -119,10 +119,6 @@ export function WorksPage() {
 
   const publishedProjects = useMemo(
     () => projects.filter((p) => !p.isSlotPlaceholder),
-    [projects]
-  );
-  const upcomingSlots = useMemo(
-    () => projects.filter((p) => p.isSlotPlaceholder),
     [projects]
   );
 
@@ -546,38 +542,6 @@ export function WorksPage() {
               })()}
             </div>
           </div>
-        )}
-
-        {/* Quiet Reservation Index for Open Archive Slots */}
-        {upcomingSlots.length > 0 && filter === 'all' && (
-          <RubberBlock skewFactor={0.5} driftFactor={5} className="mt-10 pt-8 border-t border-[#0B0B0B]/12 dark:border-white/12">
-            <p className="font-mono-tabular text-[10px] uppercase tracking-[0.18em] text-[#0B0B0B]/45 dark:text-[#EFEFE9]/45 mb-4">
-              {lang === 'ru'
-                ? 'РЕЗЕРВНЫЕ СЛОТЫ АРХИВА · ГОТОВЫ К ПУБЛИКАЦИИ'
-                : 'OPEN ARCHIVE SLOTS · READY FOR PUBLICATION'}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {upcomingSlots.map((slot) => (
-                <button
-                  key={slot.id}
-                  type="button"
-                  onClick={() => openCase(slot)}
-                  onMouseEnter={() => playHover()}
-                  className="text-left py-4 border-b border-[#0B0B0B]/15 dark:border-white/15 hover:border-[#D61914] dark:hover:border-[#E7FA53] transition-colors flex items-center justify-between gap-4 group"
-                >
-                  <div className="min-w-0">
-                    <p className="font-serif-editorial italic text-xs text-[#0B0B0B]/55 dark:text-[#EFEFE9]/55 mb-1">
-                      {slot.slotCode} · {t(slot.categoryLabel)}
-                    </p>
-                    <p className="font-display font-bold uppercase text-sm sm:text-base tracking-tight text-[#0B0B0B] dark:text-[#EFEFE9] group-hover:text-[#D61914] dark:group-hover:text-[#E7FA53] transition-colors truncate">
-                      {t(slot.title).replace(/^Слот \d+\s*—\s*|^Slot \d+\s*—\s*/i, '')}
-                    </p>
-                  </div>
-                  <ArrowUpRight className="w-4 h-4 shrink-0 text-[#0B0B0B]/50 dark:text-[#EFEFE9]/50 group-hover:text-[#D61914] dark:group-hover:text-[#E7FA53] transition-colors" />
-                </button>
-              ))}
-            </div>
-          </RubberBlock>
         )}
       </div>
     </div>

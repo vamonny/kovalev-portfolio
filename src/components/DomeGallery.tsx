@@ -810,7 +810,7 @@ export const DomeGallery = forwardRef<DomeGalleryHandle, DomeGalleryProps>(funct
                     }
                   }}
                 >
-                  <img src={it.src} draggable={false} loading="lazy" alt={it.alt} />
+                  <img src={it.src} draggable={false} loading="lazy" decoding="async" alt={it.alt} />
                 </div>
               </div>
             ))}

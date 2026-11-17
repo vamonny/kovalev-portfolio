@@ -107,23 +107,23 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       accent: '#00C6FF',
       isDark: true,
     },
-    coverImage: '/assets/aistudio/image_62a6c9c4.png',
+    coverImage: '/assets/aistudio/image_62a6c9c4.webp',
     coverFit: 'contain',
     coverBg: '#FFFFFF',
     isLogoCover: true,
     preserveTypographyMedia: true,
-    heroImage: '/assets/aistudio/Screenshot_2026-05-16_184350_51c20aa2.png',
+    heroImage: '/assets/aistudio/Screenshot_2026-05-16_184350_51c20aa2.webp',
     secondaryImages: [
-      '/assets/aistudio/Screenshot_2026-05-16_184441_cc36e6e8.png',
-      '/assets/aistudio/Screenshot_2026-05-16_184505_8a77c64a.png',
+      '/assets/aistudio/Screenshot_2026-05-16_184441_cc36e6e8.webp',
+      '/assets/aistudio/Screenshot_2026-05-16_184505_8a77c64a.webp',
     ],
     beforeAfter: {
       pairs: [
         {
           id: 'hero',
           label: { ru: '01 · Первый экран', en: '01 · Hero & Nav' },
-          beforeSrc: '/assets/aistudio/Screenshot_2026-02-13_025841_6a37a952.png',
-          afterSrc: '/assets/aistudio/Screenshot_2026-05-16_184350_51c20aa2.png',
+          beforeSrc: '/assets/aistudio/Screenshot_2026-02-13_025841_6a37a952.webp',
+          afterSrc: '/assets/aistudio/Screenshot_2026-05-16_184350_51c20aa2.webp',
           beforeNote: {
             ru: 'Серый абстрактный фон, трудночитаемый рукописный шрифт, перегруженная двойная шапка и визуально тяжёлые кнопки-капсулы.',
             en: 'Muddy gray backdrop, low-legibility cursive script, cluttered double header, and heavy glowing pill buttons.',
@@ -136,8 +136,8 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
         {
           id: 'services',
           label: { ru: '02 · Подача услуг', en: '02 · Services & 3D' },
-          beforeSrc: '/assets/aistudio/Screenshot_2026-02-13_203538_d127794e.png',
-          afterSrc: '/assets/aistudio/Screenshot_2026-05-16_184505_8a77c64a.png',
+          beforeSrc: '/assets/aistudio/Screenshot_2026-02-13_203538_d127794e.webp',
+          afterSrc: '/assets/aistudio/Screenshot_2026-05-16_184505_8a77c64a.webp',
           beforeNote: {
             ru: 'Кислотно-голубое свечение вокруг стоковых фото, тени за текстом и нагромождение мелких блоков на тёмном фоне.',
             en: 'Harsh neon-cyan glow around stock images, heavy drop shadows behind script fonts, and cramped dark layout.',
@@ -150,8 +150,8 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
         {
           id: 'curation',
           label: { ru: '03 · Имплантация и ГОСТ', en: '03 · Systems & GOST' },
-          beforeSrc: '/assets/aistudio/Screenshot_2026-02-13_201222_2f3258de.png',
-          afterSrc: '/assets/aistudio/Screenshot_2026-05-16_184520_8fd522ec.png',
+          beforeSrc: '/assets/aistudio/Screenshot_2026-02-13_201222_2f3258de.webp',
+          afterSrc: '/assets/aistudio/Screenshot_2026-05-16_184520_8fd522ec.webp',
           beforeNote: {
             ru: 'Разрозненная тёмная сетка с техническими артефактами на фото, несогласованные шрифты и отсутствие доступной среды.',
             en: 'Disjointed dark grid with image artifacts, inconsistent typeweights, and no medical accessibility compliance.',
@@ -164,8 +164,8 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
         {
           id: 'trust',
           label: { ru: '04 · Доверие к клинике', en: '04 · Clinic Trust' },
-          beforeSrc: '/assets/aistudio/Screenshot_2026-02-13_213718_f71eaa19.png',
-          afterSrc: '/assets/aistudio/Screenshot_2026-05-16_184441_cc36e6e8.png',
+          beforeSrc: '/assets/aistudio/Screenshot_2026-02-13_213718_f71eaa19.webp',
+          afterSrc: '/assets/aistudio/Screenshot_2026-05-16_184441_cc36e6e8.webp',
           beforeNote: {
             ru: 'Повторяющиеся фотографии в разделе хирургии и агрессивные голубые плашки без чёткой иерархии смыслов.',
             en: 'Duplicated stock imagery in the surgery section and jarring neon buttons lacking clear visual hierarchy.',
@@ -178,7 +178,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       ],
       extraPlates: [
         {
-          src: '/assets/aistudio/Screenshot_2026-05-16_184601_83facf63.png',
+          src: '/assets/aistudio/Screenshot_2026-05-16_184601_83facf63.webp',
           tag: 'MAPS & CONTACTS',
           caption: {
             ru: 'Обновлённая презентация ООО «Доктор Филатов», Яндекс Карты (ул. Бекетова, 36) и яркие синие контактные блоки',
@@ -194,7 +194,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           },
         },
         {
-          src: '/assets/aistudio/Screenshot_2026-02-13_213359_05ebf98d.png',
+          src: '/assets/aistudio/Screenshot_2026-02-13_213359_05ebf98d.webp',
           tag: 'ARCHIVE · BEFORE',
           caption: {
             ru: 'Исходный вид раздела протезирования до ребрендинга: иллюстрация того, почему клинике требовалась полная пересборка UX',
@@ -300,15 +300,15 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       accent: '#FF4393',
       isDark: true,
     },
-    coverImage: '/assets/aistudio/image_cf7f3a44.png',
+    coverImage: '/assets/aistudio/image_cf7f3a44.webp',
     coverFit: 'contain',
     coverBg: '#FFFFFF',
     coverElevation: true,
     preserveTypographyMedia: true,
-    heroImage: '/assets/aistudio/4_becce05d.png',
+    heroImage: '/assets/aistudio/4_becce05d.webp',
     secondaryImages: [
-      '/assets/aistudio/______d804c5ad.png',
-      '/assets/aistudio/f_64769fa72e404262_19048e6c.png',
+      '/assets/aistudio/______d804c5ad.webp',
+      '/assets/aistudio/f_64769fa72e404262_19048e6c.webp',
     ],
     marketplaceSeries: [
       {
@@ -330,7 +330,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           en: 'Slide 1 anchors hero specs (110k RPM, 5 nozzles, 2.8m cord), Slide 2 dissects Air Multiplier airflow, and Slide 3 maps all 5 magnetic attachments.',
         },
         spreadImage: {
-          src: '/assets/aistudio/7_da188c0a.png',
+          src: '/assets/aistudio/7_da188c0a.webp',
           caption: {
             ru: 'Презентация карточки «Фен Supersonic» с 3D-хромом в палитре фуксии',
             en: 'Supersonic hero card presentation framed with fuchsia chrome 3D rings',
@@ -338,15 +338,15 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
         },
         slides: [
           {
-            src: '/assets/aistudio/image_cf7f3a44.png',
+            src: '/assets/aistudio/image_cf7f3a44.webp',
             label: { ru: 'Слайд 01 · Обложка и УТП', en: 'Slide 01 · Hero & USPs' },
           },
           {
-            src: '/assets/aistudio/image_5487a938.png',
+            src: '/assets/aistudio/image_5487a938.webp',
             label: { ru: 'Слайд 02 · Air Multiplier', en: 'Slide 02 · Air Multiplier' },
           },
           {
-            src: '/assets/aistudio/image_777f7ecf.png',
+            src: '/assets/aistudio/image_777f7ecf.webp',
             label: { ru: 'Слайд 03 · 5 насадок', en: 'Slide 03 · 5 Attachments' },
           },
         ],
@@ -370,7 +370,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           en: 'Built for micro-thumbnail legibility in marketplace search: instant read on model tier, A18 Bionic, 512 GB capacity, battery life, and authenticity badge.',
         },
         spreadImage: {
-          src: '/assets/aistudio/______d804c5ad.png',
+          src: '/assets/aistudio/______d804c5ad.webp',
           caption: {
             ru: 'Серия из 3 карточек iPhone 16 Plus в студийной композиции с 3D-хромом',
             en: 'Three-card iPhone 16 Plus series showcase with brushed chrome geometry',
@@ -378,15 +378,15 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
         },
         slides: [
           {
-            src: '/assets/aistudio/image_ccc7c982.png',
+            src: '/assets/aistudio/image_ccc7c982.webp',
             label: { ru: 'Слайд 01 · Главная 16 Plus', en: 'Slide 01 · 16 Plus Hero' },
           },
           {
-            src: '/assets/aistudio/image_d9093fc8.png',
+            src: '/assets/aistudio/image_d9093fc8.webp',
             label: { ru: 'Слайд 02 · Зум и камера', en: 'Slide 02 · 3x Optical Zoom' },
           },
           {
-            src: '/assets/aistudio/image_51a28b86.png',
+            src: '/assets/aistudio/image_51a28b86.webp',
             label: { ru: 'Слайд 03 · 5 оттенков', en: 'Slide 03 · Color Lineup' },
           },
         ],
@@ -410,7 +410,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           en: 'Targets core gamer purchase triggers across every panel: featherlight 63g chassis, HERO 25K DPI sensor chip render, and 70-hour LIGHTSPEED wireless life.',
         },
         spreadImage: {
-          src: '/assets/aistudio/f_64769fa72e404262_19048e6c.png',
+          src: '/assets/aistudio/f_64769fa72e404262_19048e6c.webp',
           caption: {
             ru: 'Разворот серии карточек Logitech G Pro X Superlight (обложка + бенто-сетка характеристик)',
             en: 'Logitech G Pro X Superlight full card lineup with bento spec grid',
@@ -437,7 +437,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           en: 'Translates technical specs (Xiaomi Home app, 1800W heating, 1.5L capacity, 304 steel) into practical daily scenarios for tea and family use.',
         },
         spreadImage: {
-          src: '/assets/aistudio/_______131886f0.png',
+          src: '/assets/aistudio/_______131886f0.webp',
           caption: {
             ru: 'Комплексная серия карточек Xiaomi Mi Smart Kettle Pro с экранными инфографиками и 3D-разрезами',
             en: 'Xiaomi Mi Smart Kettle Pro full card suite showing UI screen, thermal dial & 304 steel cutaways',
@@ -465,11 +465,11 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
         },
         slides: [
           {
-            src: '/assets/aistudio/image_df80af25.png',
+            src: '/assets/aistudio/image_df80af25.webp',
             label: { ru: 'Слайд 01 · Обложка 35–45', en: 'Slide 01 · Pack Cover 35–45' },
           },
           {
-            src: '/assets/aistudio/image_dd1d2749.png',
+            src: '/assets/aistudio/image_dd1d2749.webp',
             label: { ru: 'Слайд 02 · Макро-лупа ткани', en: 'Slide 02 · Weave Close-Up' },
           },
         ],
@@ -573,7 +573,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       accent: '#F6E238',
       isDark: true,
     },
-    coverImage: '/assets/aistudio/image_15316a87.png',
+    coverImage: '/assets/aistudio/image_15316a87.webp',
     coverFit: 'contain',
     coverBg: '#FFFFFF',
     coverElevation: true,
@@ -1177,7 +1177,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       accent: '#E6007E',
       isDark: true,
     },
-    coverImage: '/assets/aistudio/image_f0f056c2.png',
+    coverImage: '/assets/aistudio/image_f0f056c2.webp',
     coverFit: 'cover',
     coverBg: '#140F16',
     coverElevation: true,
@@ -1475,21 +1475,21 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       accent: '#009FE3',
       isDark: true,
     },
-    coverImage: '/assets/aistudio/open_space_2-Photoroom_1_d4bffab5.png',
+    coverImage: '/assets/aistudio/open_space_2-Photoroom_1_d4bffab5.webp',
     coverFit: 'contain',
     coverBg: '#FFFFFF',
     isLogoCover: true,
     preserveTypographyMedia: true,
-    heroImage: '/assets/aistudio/________1_v2_54930af9.png',
+    heroImage: '/assets/aistudio/________1_v2_54930af9.webp',
     secondaryImages: [
       '/assets/aistudio/_____1_14cdffdb.png',
-      '/assets/aistudio/Frame_2_15061e1a.png',
+      '/assets/aistudio/Frame_2_15061e1a.webp',
     ],
     identityPlates: [
       {
         id: 'os-logo',
         code: '01 · SIGN',
-        src: '/assets/aistudio/open_space_2-Photoroom_1_d4bffab5.png',
+        src: '/assets/aistudio/open_space_2-Photoroom_1_d4bffab5.webp',
         group: 'identity',
         surfaceBg: '#FFFFFF',
         title: {
@@ -1504,7 +1504,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       {
         id: 'os-pattern',
         code: '02 · PATTERN',
-        src: '/assets/aistudio/________1_v2_54930af9.png',
+        src: '/assets/aistudio/________1_v2_54930af9.webp',
         group: 'identity',
         surfaceBg: '#DCE1E6',
         title: {
@@ -1534,7 +1534,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       {
         id: 'os-folder',
         code: '04 · FOLDER',
-        src: '/assets/aistudio/Frame_2_15061e1a.png',
+        src: '/assets/aistudio/Frame_2_15061e1a.webp',
         group: 'print',
         surfaceBg: '#FFFFFF',
         title: {
@@ -1549,7 +1549,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       {
         id: 'os-brochure',
         code: '05 · BROCHURE',
-        src: '/assets/aistudio/_______1_75ae3097.png',
+        src: '/assets/aistudio/_______1_75ae3097.webp',
         group: 'print',
         surfaceBg: '#FFFFFF',
         title: {
@@ -1609,7 +1609,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       {
         id: 'os-notebook',
         code: '09 · NOTEBOOK',
-        src: '/assets/aistudio/_______-Photoroom_1_f4760881.png',
+        src: '/assets/aistudio/_______-Photoroom_1_f4760881.webp',
         group: 'merch',
         surfaceBg: '#FFFFFF',
         title: {
@@ -1624,7 +1624,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       {
         id: 'os-tote',
         code: '10 · MERCH TOTE',
-        src: '/assets/aistudio/_____-Photoroom_1_e7ba0eea.png',
+        src: '/assets/aistudio/_____-Photoroom_1_e7ba0eea.webp',
         group: 'merch',
         surfaceBg: '#FFFFFF',
         title: {
@@ -1639,7 +1639,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       {
         id: 'os-award',
         code: '11 · AWARD',
-        src: '/assets/aistudio/image-Photoroom_1_35f80b90.png',
+        src: '/assets/aistudio/image-Photoroom_1_35f80b90.webp',
         group: 'merch',
         surfaceBg: '#FFFFFF',
         title: {

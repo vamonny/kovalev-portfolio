@@ -143,6 +143,7 @@ export function EncyclopediaReader({
           <img
             src={active.src}
             alt={`${active.chapter}. ${lang === 'ru' ? active.title.ru : active.title.en}`}
+            decoding="async"
             className="w-full h-auto block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.012]"
           />
           <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0B0B0B]/85 text-[#EFEFE9] font-mono-tabular text-[10px] uppercase tracking-[0.14em] opacity-0 group-hover:opacity-100 transition-opacity">

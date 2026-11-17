@@ -151,6 +151,7 @@ export function IdentityShowcase({
                   src={plate.src}
                   alt={titleStr}
                   loading="lazy"
+                  decoding="async"
                   className="max-w-full max-h-full w-auto h-auto object-contain drop-shadow-[0_12px_22px_rgba(11,11,11,0.14)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
                 />
                 <span

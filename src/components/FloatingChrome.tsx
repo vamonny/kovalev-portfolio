@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Volume2, VolumeX, Menu, X, Moon, Sun } from 'lucide-react';
+import { Volume2, VolumeX, Menu, X, Moon, Sun, RotateCcw } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useSound } from '../context/SoundContext';
@@ -240,6 +240,26 @@ export function FloatingChrome() {
               </button>
             );
           })}
+          <div className={`mt-1.5 pt-2 border-t ${isDark ? 'border-white/12' : 'border-[#0B0B0B]/12'}`}>
+            <button
+              type="button"
+              tabIndex={menuOpen ? 0 : -1}
+              onClick={() => {
+                playClick();
+                setMenuOpen(false);
+                window.dispatchEvent(new CustomEvent('kk-replay-intro'));
+              }}
+              onMouseEnter={() => playHover()}
+              className={`w-full text-left py-1.5 px-1 font-mono-tabular text-[10px] uppercase tracking-[0.14em] flex items-center justify-between transition-colors ${
+                isDark
+                  ? 'text-[#EFEFE9]/65 hover:text-[#E7FA53]'
+                  : 'text-[#0B0B0B]/65 hover:text-[#D61914]'
+              }`}
+            >
+              <span>{lang === 'ru' ? 'Повторить интро' : 'Replay intro'}</span>
+              <RotateCcw className="w-3 h-3 shrink-0" />
+            </button>
+          </div>
         </nav>
 
         <button

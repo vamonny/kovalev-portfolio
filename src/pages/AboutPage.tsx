@@ -189,7 +189,7 @@ export function AboutPage() {
           <RubberBlock immediate skewFactor={-0.95} driftFactor={-9} delay={0.08} className="lg:col-span-5 space-y-6">
             <div>
               <ResilientImage
-                src="/assets/aistudio/image_8fdbeb1c.png"
+                src="/assets/aistudio/image_8fdbeb1c.webp"
                 alt={
                   lang === 'ru'
                     ? 'Кирилл Ковалёв на выставке генеративного и медиаискусства'
