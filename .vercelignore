@@ -1,0 +1,10 @@
+.aistudio/
+.env*
+!.env.example
+dist/
+node_modules/
+*.log
+.DS_Store
+*-backup/
+C:/kovalev-site-originals-backup/
+DESIGN_SYSTEM.md

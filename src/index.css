@@ -1,0 +1,166 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-display: 'Inter Tight', system-ui, sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Inter Tight', system-ui, sans-serif;
+
+    --bone: #EFEFE9;
+    --bone-deep: #E5E4DC;
+    --ink: #0B0B0B;
+    --curtain: #F5ED86;
+    --acid: #E7FA53;
+    --scarlet: #D61914;
+  }
+
+  html.dark {
+    --bone: #0C0C0F;
+    --bone-deep: #16161B;
+    --ink: #EFEFE9;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--bone);
+    color: var(--ink);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    overflow-x: hidden;
+    margin: 0;
+    background-color: var(--bone);
+    color: var(--ink);
+  }
+
+  ::selection {
+    background-color: var(--acid);
+    color: var(--ink);
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+  font-kerning: normal;
+}
+
+.font-serif-editorial {
+  font-family: var(--font-serif);
+}
+
+.font-sans-body {
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+}
+
+.font-mono-tabular {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+.text-balance-safe {
+  text-wrap: balance;
+}
+
+/* Custom pointer cursor only on fine pointer desktop devices */
+@media (hover: hover) and (pointer: fine) {
+  html.custom-cursor-active,
+  html.custom-cursor-active body,
+  html.custom-cursor-active *,
+  html.custom-cursor-active *::before,
+  html.custom-cursor-active *::after {
+    cursor: none !important;
+  }
+}
+
+/* Hide horizontal scrollbar on draggable gallery track */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid var(--scarlet);
+  outline-offset: 3px;
+}
+
+/* Accessibility: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Liquid Glass Optical Surfaces (double-bevel rim + specular sheen + chromatic edge depth) */
+.liquid-glass-light {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.66) 0%,
+    rgba(239, 239, 233, 0.44) 52%,
+    rgba(255, 255, 255, 0.54) 100%
+  );
+  backdrop-filter: blur(20px) saturate(165%) brightness(1.03);
+  -webkit-backdrop-filter: blur(20px) saturate(165%) brightness(1.03);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.9),
+    inset 0 -1.5px 2px rgba(11, 11, 11, 0.07),
+    inset 1px 0 3px rgba(64, 210, 255, 0.14),
+    inset -1px 0 3px rgba(255, 165, 90, 0.12),
+    0 12px 30px -10px rgba(11, 11, 11, 0.18),
+    0 0 0 0.5px rgba(11, 11, 11, 0.09);
+}
+
+.liquid-glass-dark {
+  background: linear-gradient(
+    145deg,
+    rgba(30, 30, 34, 0.78) 0%,
+    rgba(11, 11, 12, 0.68) 55%,
+    rgba(26, 26, 30, 0.74) 100%
+  );
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.3),
+    inset 0 -1.5px 2px rgba(0, 0, 0, 0.48),
+    inset 1px 0 3px rgba(100, 220, 255, 0.14),
+    inset -1px 0 3px rgba(231, 250, 83, 0.1),
+    0 14px 34px -10px rgba(0, 0, 0, 0.42);
+}
+
+.liquid-glass-bar {
+  background: linear-gradient(
+    180deg,
+    rgba(239, 239, 233, 0.74) 0%,
+    rgba(239, 239, 233, 0.86) 100%
+  );
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+html.dark .liquid-glass-bar {
+  background: linear-gradient(
+    180deg,
+    rgba(16, 16, 21, 0.78) 0%,
+    rgba(12, 12, 16, 0.9) 100%
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+

@@ -1,11 +1,38 @@
-<div align="center">
+# Kirill Kovalev — Graphic Design & Visual Systems Portfolio
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Интерактивное портфолио графического дизайнера и арт-директора **Кирилла Ковалёва** (*«Everything Is Connected»*).
 
-  <h1>Built with AI Studio</h2>
+## Стек
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+- **React 19 + TypeScript + Vite 8**
+- **Tailwind CSS v4**
+- **Custom WebGL2 Shaders** (`WebThreads`, `GlassIconReveal`, `PortfolioWarpCarousel`, `GooeyNav`)
+- **Web Audio API** (синтез микро-звуков и звуковое интро без сторонних аудиофайлов)
+- **Motion / GSAP / React Router**
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Локальный запуск
 
-</div>
+```bash
+npm install --legacy-peer-deps
+npm run dev
+```
+
+Проверка типов и продакшн-сборка:
+
+```bash
+npm run lint
+npm run build
+```
+
+## Публикация на GitHub
+
+```bash
+git init
+git branch -M main
+git add .
+git commit -m "Initial portfolio release"
+git remote add origin https://github.com/<ТВОЙ_ЛОГИН>/<НАЗВАНИЕ_РЕПО>.git
+git push -u origin main
+```
+
+После пуша репозиторий можно подключить напрямую к **Vercel** (`vercel.json` и `.npmrc` с `legacy-peer-deps=true` уже настроены — деплой пойдёт автоматически при каждом `git push`).
