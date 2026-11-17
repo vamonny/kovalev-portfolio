@@ -4,7 +4,6 @@ import { BilingualText } from '../i18n/translations';
 import { useLanguage } from '../context/LanguageContext';
 import { useSound } from '../context/SoundContext';
 import { ResilientImage } from './ResilientImage';
-import { ScrambleText } from './ScrambleText';
 
 export interface MarketplaceCardSlide {
   src: string;
@@ -35,7 +34,7 @@ interface MarketplaceSeriesShowcaseProps {
 
 export function MarketplaceSeriesShowcase({
   series,
-  accentColor = '#155EEF',
+  accentColor = '#E7FA53',
   onInspectImage,
 }: MarketplaceSeriesShowcaseProps) {
   const { lang, t } = useLanguage();
@@ -53,117 +52,79 @@ export function MarketplaceSeriesShowcase({
   };
 
   return (
-    <section className="max-w-[1380px] mx-auto px-5 sm:px-8 py-12 sm:py-16">
-      {/* Header Row */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-        <div>
-          <p
-            style={{ color: accentColor }}
-            className="font-mono-tabular text-[10px] uppercase tracking-[0.22em] mb-2 dark:!text-[#E7FA53]"
-          >
-            {lang === 'ru'
-              ? `СЕРИИ КАРТОЧЕК · ${String(series.length).padStart(2, '0')} КАТЕГОРИЙ`
-              : `MARKETPLACE DECK · ${String(series.length).padStart(2, '0')} SKUS`}
-          </p>
-          <h2 className="font-display font-extrabold uppercase text-2xl sm:text-4xl tracking-[-0.04em] leading-[0.95] text-[#0B0B0B] dark:text-[#EFEFE9]">
-            <ScrambleText
-              text={
-                lang === 'ru'
-                  ? 'ТИПОГРАФИКА В 5 КАТЕГОРИЯХ'
-                  : 'TYPOGRAPHY ACROSS 5 CATEGORIES'
-              }
-              triggerOnHover
-              duration={360}
-            />
-          </h2>
-        </div>
-
-        <p className="font-mono-tabular text-[11px] uppercase tracking-[0.16em] text-[#0B0B0B]/60 dark:text-[#EFEFE9]/60">
+    <section className="max-w-[1380px] mx-auto px-4 sm:px-8 py-12 sm:py-16">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-5 border-b border-white/12 mb-6">
+        <h2 className="type-heading font-display font-bold text-white">
           {lang === 'ru'
-            ? 'ВЫБЕРИТЕ ТОВАР · НАЖМИТЕ ДЛЯ УВЕЛИЧЕНИЯ'
-            : 'SELECT SKU · CLICK ANY CARD TO INSPECT'}
-        </p>
-      </div>
+            ? 'Типографика в пяти категориях товаров'
+            : 'Typography across five product series'}
+        </h2>
 
-      {/* Category Switcher Tabs */}
-      <div className="flex flex-wrap gap-2 pb-6 border-b border-[#0B0B0B]/12 dark:border-white/12 mb-8">
-        {series.map((item, idx) => {
-          const isActive = idx === activeIndex;
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => handleSelect(idx)}
-              onMouseEnter={() => playHover()}
-              aria-pressed={isActive}
-              className={`px-3.5 py-2.5 text-[11px] font-mono-tabular uppercase tracking-wider border transition-colors ${
-                isActive
-                  ? 'bg-[#0B0B0B] dark:bg-[#E7FA53] text-[#E7FA53] dark:text-[#0B0B0B] border-[#0B0B0B] dark:border-[#E7FA53]'
-                  : 'bg-[#E5E4DC] dark:bg-[#16161B] text-[#0B0B0B]/80 dark:text-[#EFEFE9]/80 border-[#0B0B0B]/15 dark:border-white/12 hover:border-[#0B0B0B] dark:hover:border-white/45'
-              }`}
-            >
-              {item.code} · {t(item.name)}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Active SKU Breakdown & Meta Bar */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-8 p-5 sm:p-7 bg-[#E5E4DC] dark:bg-[#16161B] border border-[#0B0B0B]/12 dark:border-white/12">
-        <div className="lg:col-span-5 space-y-3">
-          <div className="flex flex-wrap items-center gap-2 font-mono-tabular text-[10px] uppercase tracking-[0.18em] text-[#0B0B0B]/65 dark:text-[#EFEFE9]/65">
-            <span>{active.code}</span>
-            <span aria-hidden="true">·</span>
-            <span>{active.marketplaceTag}</span>
-          </div>
-          <h3 className="font-display font-extrabold uppercase text-2xl sm:text-3xl tracking-[-0.03em] leading-[0.98] text-[#0B0B0B] dark:text-[#EFEFE9]">
-            {t(active.name)}
-          </h3>
-          <p className="font-sans-body text-sm text-[#0B0B0B]/75 dark:text-[#EFEFE9]/75">{t(active.productType)}</p>
-
-          <div className="flex flex-wrap gap-2 pt-2">
-            {active.palette.map((hex) => (
-              <div
-                key={hex}
-                className="flex items-center gap-1.5 px-2 py-1 bg-[#EFEFE9] dark:bg-[#0C0C0F] border border-[#0B0B0B]/15 dark:border-white/15 font-mono-tabular text-[10px]"
+        <div
+          role="tablist"
+          aria-label={lang === 'ru' ? 'Серии карточек' : 'Product series'}
+          className="inline-flex flex-wrap items-center gap-1 p-1 bg-white/[0.06] rounded-[6px]"
+        >
+          {series.map((item, idx) => {
+            const isActive = idx === activeIndex;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => handleSelect(idx)}
+                onMouseEnter={() => playHover()}
+                className={`px-3 py-1.5 rounded-[5px] type-sm font-medium transition-colors duration-150 whitespace-nowrap shrink-0 ${
+                  isActive
+                    ? 'bg-[#E7FA53] text-[#0B0B0B] font-semibold'
+                    : 'text-white/75 hover:text-white'
+                }`}
               >
+                {t(item.name)}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Active SKU Summary */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-8 pb-8 border-b border-white/12">
+        <div className="lg:col-span-5 space-y-2.5">
+          <p className="type-sm text-white/60">
+            {active.marketplaceTag} · {t(active.productType)}
+          </p>
+          <h3 className="type-heading font-display font-bold text-white">{t(active.name)}</h3>
+          <div className="flex flex-wrap items-center gap-3 pt-1 type-sm text-white/65">
+            {active.palette.map((hex) => (
+              <span key={hex} className="inline-flex items-center gap-1.5">
                 <span
                   style={{ backgroundColor: hex }}
-                  className="w-3 h-3 inline-block border border-[#0B0B0B]/20 dark:border-white/25"
+                  className="w-3 h-3 inline-block border border-white/25"
                 />
                 <span>{hex}</span>
-              </div>
+              </span>
             ))}
           </div>
         </div>
 
-        <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 lg:pt-0 lg:pl-6 lg:border-l border-t lg:border-t-0 border-[#0B0B0B]/12 dark:border-white/12">
-          <div>
-            <p
-              style={{ color: accentColor }}
-              className="font-mono-tabular text-[10px] uppercase tracking-[0.18em] mb-2 dark:!text-[#E7FA53]"
-            >
-              {lang === 'ru' ? 'ТИПОГРАФИЧЕСКИЙ ПРИЁМ' : 'TYPOGRAPHIC SYSTEM'}
+        <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="space-y-1.5">
+            <p style={{ color: accentColor }} className="type-sm font-semibold">
+              {lang === 'ru' ? 'Типографический приём' : 'Typographic approach'}
             </p>
-            <p className="text-sm sm:text-[15px] leading-relaxed text-[#0B0B0B]/85 dark:text-[#EFEFE9]/85">
-              {t(active.typographyLogic)}
-            </p>
+            <p className="type-body text-white/85">{t(active.typographyLogic)}</p>
           </div>
-          <div>
-            <p
-              style={{ color: accentColor }}
-              className="font-mono-tabular text-[10px] uppercase tracking-[0.18em] mb-2 dark:!text-[#E7FA53]"
-            >
-              {lang === 'ru' ? 'ИЕРАРХИЯ СМЫСЛОВ' : 'CONVERSION HIERARCHY'}
+          <div className="space-y-1.5">
+            <p style={{ color: accentColor }} className="type-sm font-semibold">
+              {lang === 'ru' ? 'Иерархия смыслов' : 'Conversion hierarchy'}
             </p>
-            <p className="text-sm sm:text-[15px] leading-relaxed text-[#0B0B0B]/85 dark:text-[#EFEFE9]/85">
-              {t(active.hierarchyNote)}
-            </p>
+            <p className="type-body text-white/85">{t(active.hierarchyNote)}</p>
           </div>
         </div>
       </div>
 
-      {/* Presentation Chrome Spread (Wide Plate if present) */}
+      {/* Wide Spread Plate */}
       {active.spreadImage && (
         <div className="mb-8">
           <button
@@ -172,34 +133,31 @@ export function MarketplaceSeriesShowcase({
               playPluck(1.02);
               onInspectImage({
                 src: active.spreadImage!.src,
-                caption: `${active.code} — ${t(active.name)} (${t(active.spreadImage!.caption)})`,
+                caption: `${t(active.name)}: ${t(active.spreadImage!.caption)}`,
               });
             }}
             onMouseEnter={() => playHover()}
-            data-cursor={lang === 'ru' ? 'Увеличить' : 'Inspect'}
-            className="group relative block w-full overflow-hidden border border-[#0B0B0B]/15 dark:border-white/15 bg-[#0B0B0B] text-left"
+            className="group relative block w-full overflow-hidden border border-white/14 bg-[#0B0B0B] text-left"
           >
             <ResilientImage
               src={active.spreadImage.src}
               alt={t(active.spreadImage.caption)}
               fallbackTitle={active.code}
               className="w-full aspect-[16/10] sm:aspect-[16/9]"
-              imgClassName="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.025]"
+              imgClassName="w-full h-full object-cover transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02]"
             />
-            <div className="px-4 py-3 bg-[#EFEFE9] dark:bg-[#16161B] border-t border-[#0B0B0B]/12 dark:border-white/12 flex items-center justify-between gap-4">
-              <span className="font-mono-tabular text-[11px] uppercase tracking-[0.14em] text-[#0B0B0B]/80 dark:text-[#EFEFE9]/80">
-                {t(active.spreadImage.caption)}
-              </span>
-              <span className="inline-flex items-center gap-1.5 font-mono-tabular text-[10px] uppercase tracking-[0.16em] text-[#0B0B0B]/60 dark:text-[#EFEFE9]/65 group-hover:text-[#0B0B0B] dark:group-hover:text-[#E7FA53] shrink-0">
-                <ZoomIn className="w-3.5 h-3.5" />
-                {lang === 'ru' ? 'ОТКРЫТЬ' : 'INSPECT'}
+            <div className="px-4 py-3 bg-[#16161B] border-t border-white/12 flex items-center justify-between gap-4">
+              <span className="type-sm text-white/80">{t(active.spreadImage.caption)}</span>
+              <span className="inline-flex items-center gap-1.5 type-sm font-medium text-white/70 group-hover:text-[#E7FA53] shrink-0 transition-colors duration-150">
+                <ZoomIn className="w-4 h-4" />
+                <span>{lang === 'ru' ? 'Увеличить' : 'Inspect'}</span>
               </span>
             </div>
           </button>
         </div>
       )}
 
-      {/* Individual 3:4 Marketplace Cards Grid (when standalone portrait cards exist) */}
+      {/* Individual Portrait Cards Grid */}
       {active.slides.length > 0 && (
         <div
           className={`grid grid-cols-1 sm:grid-cols-2 ${
@@ -214,27 +172,24 @@ export function MarketplaceSeriesShowcase({
                 playPluck(1.08 + sIdx * 0.04);
                 onInspectImage({
                   src: slide.src,
-                  caption: `${active.code} · ${t(active.name)} — ${t(slide.label)}`,
+                  caption: `${t(active.name)}: ${t(slide.label)}`,
                 });
               }}
               onMouseEnter={() => playHover()}
-              data-cursor={lang === 'ru' ? 'Увеличить' : 'Inspect'}
-              className="group text-left border border-[#0B0B0B]/15 dark:border-white/12 bg-[#EFEFE9] dark:bg-[#16161B] overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1"
+              className="group text-left border border-white/12 bg-[#16161B] overflow-hidden transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5"
             >
               <div className="overflow-hidden bg-[#141418]">
                 <ResilientImage
                   src={slide.src}
-                  alt={`${t(active.name)} — ${t(slide.label)}`}
+                  alt={`${t(active.name)} · ${t(slide.label)}`}
                   fallbackTitle={active.code}
                   className="w-full aspect-[3/4]"
-                  imgClassName="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.03]"
+                  imgClassName="w-full h-full object-cover transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02]"
                 />
               </div>
-              <div className="px-3.5 py-2.5 flex items-center justify-between gap-2 border-t border-[#0B0B0B]/12 dark:border-white/12">
-                <span className="font-mono-tabular text-[10px] uppercase tracking-[0.16em] text-[#0B0B0B]/75 dark:text-[#EFEFE9]/75">
-                  {t(slide.label)}
-                </span>
-                <ZoomIn className="w-3.5 h-3.5 text-[#0B0B0B]/45 dark:text-[#EFEFE9]/50 group-hover:text-[#0B0B0B] dark:group-hover:text-[#E7FA53] transition-colors shrink-0" />
+              <div className="px-4 py-3 flex items-center justify-between gap-2 border-t border-white/12">
+                <span className="type-sm text-white/80">{t(slide.label)}</span>
+                <ZoomIn className="w-4 h-4 text-white/50 group-hover:text-[#E7FA53] transition-colors duration-150 shrink-0" />
               </div>
             </button>
           ))}

@@ -1,13 +1,12 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Volume2, VolumeX, Menu, X, Moon, Sun, RotateCcw } from 'lucide-react';
+import { Menu, Moon, RotateCcw, Sun, Volume2, VolumeX, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useSound } from '../context/SoundContext';
 import { useCurtainNavigation } from '../context/NavigationContext';
 import { translations } from '../i18n/translations';
-import { ScrambleText } from './ScrambleText';
-import { GooeyNav } from './GooeyNav';
+import { PillNav, PillNavItem } from './PillNav';
 
 export function FloatingChrome() {
   const { isDark, toggleTheme } = useTheme();
@@ -15,16 +14,29 @@ export function FloatingChrome() {
   const { soundEnabled, toggleSound, playHover, playClick, playMorph } = useSound();
   const { navigateWithCurtain } = useCurtainNavigation();
   const location = useLocation();
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const [pendingNavIndex, setPendingNavIndex] = useState<number | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     setMenuOpen(false);
-    setPendingNavIndex(null);
     document.body.classList.remove('dg-scroll-lock');
   }, [location.pathname]);
 
-  const isHome = location.pathname === '/';
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 18);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const isForcedDarkRoute =
+    location.pathname.includes('wb-ozon-marketplace-typography') ||
+    location.pathname.includes('pafos-seductions-brandbook');
+
+  const darkHeaderSurface = isDark || isForcedDarkRoute;
 
   const menuLinks = useMemo(
     () => [
@@ -49,163 +61,131 @@ export function FloatingChrome() {
       {
         path: '/about',
         label: t(translations.nav.about),
-        italicLine: lang === 'ru' ? 'ПОДХОД' : 'STUDIO',
+        italicLine: lang === 'ru' ? 'ПОДХОД' : 'PRACTICE',
         regularLine: lang === 'ru' ? 'О СЕБЕ' : 'ABOUT',
       },
       {
         path: '/contacts',
         label: t(translations.nav.contacts),
-        italicLine: lang === 'ru' ? 'СВЯЗЬ' : 'LET’S',
-        regularLine: lang === 'ru' ? 'КОНТАКТЫ' : 'TALK',
+        italicLine: lang === 'ru' ? 'СВЯЗЬ' : 'CONTACT',
+        regularLine: lang === 'ru' ? 'КОНТАКТЫ' : 'INQUIRY',
       },
     ],
     [lang, t]
   );
 
-  const routeActiveIndex = useMemo(() => {
-    if (location.pathname === '/') return 0;
-    if (location.pathname.startsWith('/works')) return 1;
-    if (location.pathname.startsWith('/dome')) return 2;
-    if (location.pathname.startsWith('/about')) return 3;
-    if (location.pathname.startsWith('/contacts')) return 4;
-    return 0;
-  }, [location.pathname]);
+  const pillItems: PillNavItem[] = useMemo(
+    () =>
+      menuLinks.map((item) => ({
+        label: item.label,
+        href: item.path,
+      })),
+    [menuLinks]
+  );
 
-  const activeGooeyIndex = pendingNavIndex ?? routeActiveIndex;
+  const activeNavHref = useMemo(() => {
+    const match = menuLinks.find((item) =>
+      item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path)
+    );
+    return match ? match.path : '/';
+  }, [location.pathname, menuLinks]);
 
-  const handleGooeySelect = (index: number) => {
-    const target = menuLinks[index];
-    if (!target) return;
+  const go = (item: (typeof menuLinks)[number]) => {
     playMorph();
-    setPendingNavIndex(index);
-    const alreadyOnTarget =
-      target.path === '/'
-        ? location.pathname === '/'
-        : location.pathname === target.path;
-    if (alreadyOnTarget) return;
-    navigateWithCurtain(target.path, {
-      italicLine: target.italicLine,
-      regularLine: target.regularLine,
+    setMenuOpen(false);
+    const alreadyThere =
+      item.path === '/' ? location.pathname === '/' : location.pathname === item.path;
+    if (alreadyThere) return;
+    navigateWithCurtain(item.path, {
+      italicLine: item.italicLine,
+      regularLine: item.regularLine,
     });
   };
 
   return (
     <>
-      {/* Persistent Top GooeyNav Dock + Dark/Light Mode Switcher (stays visible above CurvedCurtain z-[90]) */}
-      <div className="pointer-events-none fixed top-2.5 sm:top-4 left-0 right-0 z-[92] px-1.5 sm:px-6 flex justify-center items-center gap-1.5 sm:gap-2.5">
-        <div className="pointer-events-auto max-w-full min-w-0">
-          <GooeyNav
-            items={menuLinks.map((item) => ({ label: item.label }))}
-            activeIndex={activeGooeyIndex}
-            onChange={handleGooeySelect}
-            theme={isDark ? 'light' : 'dark'}
+      {/* Three-Zone Header: Left Brand Wordmark + Centered PillNav + Right Primary CTA */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-[92] h-16 sm:h-[72px] px-4 sm:px-8 flex items-center justify-between gap-4 transition-[background-color,border-color,backdrop-filter] duration-200 pointer-events-none ${
+          isScrolled || menuOpen
+            ? darkHeaderSurface
+              ? 'bg-[#0C0C0F]/82 backdrop-blur-md border-b border-white/10 text-[#EFEFE9]'
+              : 'bg-[#EFEFE9]/82 backdrop-blur-md border-b border-[#0B0B0B]/10 text-[#0B0B0B]'
+            : darkHeaderSurface
+            ? 'bg-transparent border-b border-transparent text-[#EFEFE9]'
+            : 'bg-transparent border-b border-transparent text-[#0B0B0B]'
+        }`}
+      >
+        {/* Zone 1 (Left): Brand Wordmark */}
+        <button
+          type="button"
+          onClick={() => go(menuLinks[0])}
+          onMouseEnter={() => playHover()}
+          className="pointer-events-auto font-display text-lg sm:text-[21px] font-bold tracking-[-0.03em] whitespace-nowrap shrink-0 text-left hover:opacity-80 transition-opacity duration-200"
+        >
+          Kirill Kovalev
+        </button>
+
+        {/* Zone 2 (Center): React Bits PillNav */}
+        <div className="hidden lg:flex flex-1 min-w-0 items-center justify-center pointer-events-auto">
+          <PillNav
+            items={pillItems}
+            activeHref={activeNavHref}
+            onItemClick={(_item, index, event) => {
+              event.preventDefault();
+              const target = menuLinks[index];
+              if (target) go(target);
+            }}
+            theme={darkHeaderSurface ? 'dark' : 'light'}
+            surface="glass"
             size="md"
-            frame={true}
-            particleCount={15}
-            spread={56}
-            animationTime={600}
-            timeVariance={300}
-            gooeyness={0.5}
-            wobble={0.5}
-            hoverEffect={true}
+            itemStyle="pill"
+            hoverEffect="fill"
+            indicator="pill"
+            bounce={0.16}
+            collapse="never"
+            ariaLabel="Primary navigation"
           />
         </div>
 
-        <button
-          type="button"
-          onClick={() => {
-            playMorph();
-            toggleTheme();
-          }}
-          onMouseEnter={() => playHover()}
-          aria-pressed={isDark}
-          aria-label={
-            isDark
-              ? lang === 'ru'
-                ? 'Переключить на светлую тему'
-                : 'Switch to light theme'
-              : lang === 'ru'
-              ? 'Переключить на тёмную тему'
-              : 'Switch to dark theme'
-          }
-          title={
-            isDark
-              ? lang === 'ru'
-                ? 'Светлая тема'
-                : 'Light mode'
-              : lang === 'ru'
-              ? 'Тёмная тема'
-              : 'Dark mode'
-          }
-          className={`pointer-events-auto w-8 h-8 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 active:scale-95 shrink-0 ${
-            isDark
-              ? 'liquid-glass-light text-[#0B0B0B] hover:text-[#D61914]'
-              : 'liquid-glass-dark text-[#EFEFE9] hover:text-[#E7FA53]'
-          }`}
-        >
-          {isDark ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
-        </button>
-      </div>
-
-      {/* Top-right Liquid Glass K monogram tile (desktop/tablet) */}
-      {!isHome && (
-        <button
-          type="button"
-          onClick={() =>
-            navigateWithCurtain('/', {
-              italicLine: lang === 'ru' ? 'ГЛАВНАЯ' : 'HOME',
-            })
-          }
-          onMouseEnter={() => playHover()}
-          aria-label={t(translations.nav.home)}
-          className={`hidden sm:flex group fixed top-5 right-5 sm:top-6 sm:right-7 z-40 w-11 h-11 rounded-[14px] items-center justify-center transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 active:scale-95 overflow-hidden ${
-            isDark ? 'liquid-glass-dark' : 'liquid-glass-light'
-          }`}
-        >
-          <span
-            aria-hidden="true"
-            className={`pointer-events-none absolute inset-0 bg-gradient-to-br opacity-80 group-hover:opacity-100 transition-opacity ${
-              isDark
-                ? 'from-white/15 via-transparent to-cyan-200/10'
-                : 'from-white/55 via-transparent to-cyan-200/15'
+        {/* Zone 3 (Right): Primary CTA + Mobile/Tablet Menu Trigger */}
+        <div className="flex items-center gap-2.5 shrink-0 pointer-events-auto">
+          <button
+            type="button"
+            onClick={() => go(menuLinks[4])}
+            onMouseEnter={() => playHover()}
+            className={`hidden sm:inline-flex items-center justify-center px-4 py-2 type-sm font-semibold rounded-[6px] whitespace-nowrap shrink-0 transition-colors duration-200 ${
+              darkHeaderSurface
+                ? 'bg-[#E7FA53] text-[#0B0B0B] hover:bg-white'
+                : 'bg-[#0B0B0B] text-[#EFEFE9] hover:bg-[#D61914]'
             }`}
-          />
-          <svg
-            viewBox="0 0 28 28"
-            className={`relative w-5 h-5 transition-colors ${
-              isDark
-                ? 'text-[#EFEFE9] group-hover:text-[#E7FA53]'
-                : 'text-[#0B0B0B] group-hover:text-[#D61914]'
-            }`}
-            aria-hidden="true"
           >
-            <path
-              d="M6 23 L10 5 H15 L11 23 Z M14 14 L22 5 H26 L18 14 L23 23 H18 Z"
-              fill="currentColor"
-            />
-          </svg>
-        </button>
-      )}
+            {t(translations.nav.cta)}
+          </button>
 
-      {/* Floating Bottom-Right Liquid Glass Menu Button & Drawer */}
-      <div className="fixed bottom-11 sm:bottom-12 right-4 sm:right-7 z-50 flex flex-col items-end">
-        <nav
-          aria-label="Site navigation"
-          aria-hidden={!menuOpen}
-          style={{
-            transform: menuOpen
-              ? 'translate3d(0, 0, 0) scale(1, 1)'
-              : 'translate3d(0, 14px, 0) scale(0.86, 1.12)',
-            opacity: menuOpen ? 1 : 0,
-            pointerEvents: menuOpen ? 'auto' : 'none',
-            transition:
-              'transform 460ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 200ms ease',
-          }}
-          className={`mb-3 w-48 sm:w-52 rounded-[18px] py-3 px-4 flex flex-col gap-1 origin-bottom-right ${
-            isDark
-              ? 'liquid-glass-dark text-[#EFEFE9]'
-              : 'liquid-glass-light text-[#0B0B0B]'
-          }`}
+          <button
+            type="button"
+            onClick={() => {
+              playClick();
+              setMenuOpen((prev) => !prev);
+            }}
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? t(translations.nav.close) : t(translations.nav.menu)}
+            className="lg:hidden w-10 h-10 flex items-center justify-center rounded-[6px] border border-current/20"
+          >
+            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile / Tablet Navigation Drawer */}
+      {menuOpen && (
+        <div
+          className={`fixed inset-x-0 top-16 sm:top-[72px] z-[91] lg:hidden border-b px-5 py-6 flex flex-col gap-3 shadow-xl ${
+            darkHeaderSurface
+              ? 'bg-[#0C0C0F]/96 border-white/14 text-[#EFEFE9]'
+              : 'bg-[#EFEFE9]/96 border-[#0B0B0B]/14 text-[#0B0B0B]'
+          } backdrop-blur-lg`}
         >
           {menuLinks.map((item) => {
             const active =
@@ -216,92 +196,54 @@ export function FloatingChrome() {
               <button
                 key={item.path}
                 type="button"
-                tabIndex={menuOpen ? 0 : -1}
-                onClick={() => {
-                  setMenuOpen(false);
-                  navigateWithCurtain(item.path, {
-                    italicLine: item.italicLine,
-                    regularLine: item.regularLine,
-                  });
-                }}
-                onMouseEnter={() => playHover()}
-                className={`w-full text-left py-2 px-1 font-display text-lg sm:text-xl font-semibold tracking-[-0.03em] leading-[1.1] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-x-1.5 flex items-center justify-between ${
+                onClick={() => go(item)}
+                className={`w-full text-left py-2 type-heading font-display font-bold tracking-tight transition-colors ${
                   active
-                    ? isDark
+                    ? darkHeaderSurface
                       ? 'text-[#E7FA53]'
                       : 'text-[#D61914]'
-                    : isDark
-                    ? 'text-[#EFEFE9] hover:text-[#E7FA53]'
-                    : 'text-[#0B0B0B] hover:text-[#D61914]'
+                    : 'opacity-85 hover:opacity-100'
                 }`}
               >
-                <ScrambleText text={item.label} triggerOnHover duration={300} />
-                {active && <span className="text-[10px]">●</span>}
+                {item.label}
               </button>
             );
           })}
-          <div className={`mt-1.5 pt-2 border-t ${isDark ? 'border-white/12' : 'border-[#0B0B0B]/12'}`}>
+          <div className="pt-3 mt-1 border-t border-current/12 flex items-center justify-between">
             <button
               type="button"
-              tabIndex={menuOpen ? 0 : -1}
+              onClick={() => go(menuLinks[4])}
+              className={`px-4 py-2.5 type-sm font-semibold rounded-[6px] ${
+                darkHeaderSurface
+                  ? 'bg-[#E7FA53] text-[#0B0B0B]'
+                  : 'bg-[#0B0B0B] text-[#EFEFE9]'
+              }`}
+            >
+              {t(translations.nav.cta)}
+            </button>
+            <button
+              type="button"
               onClick={() => {
                 playClick();
                 setMenuOpen(false);
                 window.dispatchEvent(new CustomEvent('kk-replay-intro'));
               }}
-              onMouseEnter={() => playHover()}
-              className={`w-full text-left py-1.5 px-1 font-mono-tabular text-[10px] uppercase tracking-[0.14em] flex items-center justify-between transition-colors ${
-                isDark
-                  ? 'text-[#EFEFE9]/65 hover:text-[#E7FA53]'
-                  : 'text-[#0B0B0B]/65 hover:text-[#D61914]'
-              }`}
+              className="inline-flex items-center gap-1.5 type-sm opacity-75 hover:opacity-100"
             >
+              <RotateCcw className="w-3.5 h-3.5" />
               <span>{lang === 'ru' ? 'Повторить интро' : 'Replay intro'}</span>
-              <RotateCcw className="w-3 h-3 shrink-0" />
             </button>
           </div>
-        </nav>
+        </div>
+      )}
 
-        <button
-          type="button"
-          onClick={() => {
-            playClick();
-            setMenuOpen((prev) => !prev);
-          }}
-          onMouseEnter={() => playHover()}
-          aria-expanded={menuOpen}
-          aria-label={menuOpen ? t(translations.nav.close) : t(translations.nav.menu)}
-          className={`w-11 h-11 rounded-[14px] transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 active:scale-90 flex items-center justify-center ${
-            isDark
-              ? 'liquid-glass-light text-[#0B0B0B] hover:text-[#D61914]'
-              : 'liquid-glass-dark text-[#EFEFE9] hover:text-[#E7FA53]'
-          }`}
-        >
-          {menuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-        </button>
-      </div>
+      {/* Slim Bottom Utility Bar */}
+      <footer className="fixed bottom-0 left-0 right-0 z-40 h-10 liquid-glass-bar border-t border-[#0B0B0B]/10 dark:border-white/10 px-4 sm:px-8 flex items-center justify-between text-[13px] sm:type-sm font-sans-body font-medium text-[#0B0B0B] dark:text-[#EFEFE9]">
+        <div className="flex items-center gap-3 min-w-0">
+          <span className="tabular-nums opacity-70 whitespace-nowrap shrink-0">© 2026</span>
 
-      {/* Fixed Bottom Liquid Glass Micro-Utility Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 h-9 sm:h-10 liquid-glass-bar border-t border-[#0B0B0B]/10 dark:border-white/10 px-4 sm:px-7 flex items-center justify-between text-[10px] sm:text-[11px] font-sans-body font-semibold uppercase tracking-[-0.01em] text-[#0B0B0B] dark:text-[#EFEFE9]">
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <span className="whitespace-nowrap shrink-0">© 2026</span>
-          <span aria-hidden="true" className="opacity-40">·</span>
-          <button
-            type="button"
-            onClick={() =>
-              navigateWithCurtain('/', {
-                italicLine: 'KIRILL',
-                regularLine: 'KOVALEV',
-              })
-            }
-            className="hidden sm:inline hover:text-[#D61914] transition-colors whitespace-nowrap shrink-0"
-          >
-            KIRILL KOVALEV
-          </button>
-          <span aria-hidden="true" className="hidden sm:inline opacity-40">|</span>
-
-          {/* Instant RU / EN switcher */}
-          <div className="flex items-center gap-1 whitespace-nowrap shrink-0">
+          {/* Segmented RU / EN Language Switcher */}
+          <div className="flex items-center bg-[#0B0B0B]/[0.06] dark:bg-white/[0.08] p-0.5 rounded-[5px] whitespace-nowrap shrink-0">
             <button
               type="button"
               onClick={() => {
@@ -309,15 +251,14 @@ export function FloatingChrome() {
                 setLang('ru');
               }}
               aria-pressed={lang === 'ru'}
-              className={`px-1 py-0.5 transition-colors ${
+              className={`px-2 py-0.5 rounded-[4px] transition-colors duration-150 ${
                 lang === 'ru'
-                  ? 'font-bold text-[#0B0B0B] dark:text-[#E7FA53] underline underline-offset-4'
-                  : 'opacity-55 hover:opacity-100'
+                  ? 'bg-[#0B0B0B] dark:bg-[#E7FA53] text-[#EFEFE9] dark:text-[#0B0B0B] font-semibold'
+                  : 'opacity-70 hover:opacity-100'
               }`}
             >
               RU
             </button>
-            <span aria-hidden="true" className="opacity-35">/</span>
             <button
               type="button"
               onClick={() => {
@@ -325,57 +266,89 @@ export function FloatingChrome() {
                 setLang('en');
               }}
               aria-pressed={lang === 'en'}
-              className={`px-1 py-0.5 transition-colors ${
+              className={`px-2 py-0.5 rounded-[4px] transition-colors duration-150 ${
                 lang === 'en'
-                  ? 'font-bold text-[#0B0B0B] dark:text-[#E7FA53] underline underline-offset-4'
-                  : 'opacity-55 hover:opacity-100'
+                  ? 'bg-[#0B0B0B] dark:bg-[#E7FA53] text-[#EFEFE9] dark:text-[#0B0B0B] font-semibold'
+                  : 'opacity-70 hover:opacity-100'
               }`}
             >
               EN
             </button>
           </div>
 
-          <span aria-hidden="true" className="opacity-40">|</span>
+          <button
+            type="button"
+            onClick={() => {
+              playMorph();
+              toggleTheme();
+            }}
+            aria-pressed={isDark}
+            aria-label={isDark ? 'Light mode' : 'Dark mode'}
+            className="inline-flex items-center gap-1.5 py-1 hover:opacity-70 transition-opacity whitespace-nowrap shrink-0"
+          >
+            {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+            <span className="hidden sm:inline">
+              {isDark
+                ? lang === 'ru'
+                  ? 'Светлая тема'
+                  : 'Light theme'
+                : lang === 'ru'
+                ? 'Тёмная тема'
+                : 'Dark theme'}
+            </span>
+          </button>
 
-          {/* Sound Toggle Icon (matches speaker icon in video bottom-left) */}
           <button
             type="button"
             onClick={toggleSound}
             aria-pressed={soundEnabled}
             aria-label={soundEnabled ? t(translations.utility.soundOn) : t(translations.utility.soundOff)}
-            className="inline-flex items-center gap-1 py-1 px-1.5 hover:text-[#D61914] transition-colors whitespace-nowrap shrink-0"
+            className="inline-flex items-center gap-1.5 py-1 hover:opacity-70 transition-opacity whitespace-nowrap shrink-0"
           >
             {soundEnabled ? (
-              <Volume2 className="w-3.5 h-3.5 text-[#D61914]" />
+              <Volume2 className="w-3.5 h-3.5 text-[#D61914] dark:text-[#E7FA53]" />
             ) : (
-              <VolumeX className="w-3.5 h-3.5 opacity-60" />
+              <VolumeX className="w-3.5 h-3.5 opacity-65" />
             )}
-            <span className="hidden md:inline">
-              {soundEnabled ? (lang === 'ru' ? 'ЗВУК' : 'SOUND') : lang === 'ru' ? 'ТИХО' : 'MUTE'}
+            <span className="hidden sm:inline">
+              {soundEnabled ? (lang === 'ru' ? 'Звук' : 'Sound') : lang === 'ru' ? 'Тихо' : 'Muted'}
             </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              playClick();
+              window.dispatchEvent(new CustomEvent('kk-replay-intro'));
+            }}
+            onMouseEnter={() => playHover()}
+            className="hidden md:inline-flex items-center gap-1.5 py-1 opacity-75 hover:opacity-100 transition-opacity whitespace-nowrap shrink-0"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>{lang === 'ru' ? 'Интро' : 'Intro'}</span>
           </button>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3 whitespace-nowrap shrink-0">
+        <div className="flex items-center gap-3 whitespace-nowrap shrink-0">
           <a
             href="https://t.me/vamonny"
             target="_blank"
             rel="noreferrer"
             onMouseEnter={() => playHover()}
-            className="hover:text-[#D61914] transition-colors"
+            className="hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-colors"
           >
-            TELEGRAM
+            Telegram
           </a>
-          <span aria-hidden="true" className="opacity-40">|</span>
+          <span aria-hidden="true" className="opacity-30">·</span>
           <a
             href="mailto:vamonny06@gmail.com"
             onMouseEnter={() => playHover()}
-            className="hover:text-[#D61914] transition-colors"
+            className="hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-colors"
           >
-            EMAIL
+            Email
           </a>
         </div>
-      </div>
+      </footer>
     </>
   );
 }

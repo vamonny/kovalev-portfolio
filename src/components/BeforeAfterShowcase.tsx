@@ -3,7 +3,6 @@ import { MoveHorizontal, Expand } from 'lucide-react';
 import { BilingualText } from '../i18n/translations';
 import { useLanguage } from '../context/LanguageContext';
 import { useSound } from '../context/SoundContext';
-import { ScrambleText } from './ScrambleText';
 
 export interface BeforeAfterPair {
   id: string;
@@ -72,42 +71,38 @@ export function BeforeAfterShowcase({
   };
 
   return (
-    <section className="max-w-[1380px] mx-auto px-5 sm:px-8 py-12 sm:py-16">
+    <section className="max-w-[1380px] mx-auto px-4 sm:px-8 py-12 sm:py-16">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-5 border-b border-[#0B0B0B]/12 dark:border-white/12 mb-6">
-        <div>
-          <p className="font-mono-tabular text-[10px] uppercase tracking-[0.2em] text-[#D61914] dark:text-[#E7FA53] mb-2">
-            <ScrambleText
-              text={lang === 'ru' ? 'ТРАНСФОРМАЦИЯ · ДО И ПОСЛЕ' : 'TRANSFORMATION · BEFORE & AFTER'}
-              triggerOnHover
-              duration={320}
-            />
-          </p>
-          <h2 className="font-display font-extrabold uppercase tracking-[-0.04em] leading-[0.9] text-[clamp(1.75rem,3.6vw,3rem)] text-[#0B0B0B] dark:text-[#EFEFE9]">
-            {lang === 'ru' ? 'Сравните старый и новый сайт' : 'Drag to compare old vs. redesign'}
-          </h2>
-        </div>
+        <h2 className="type-heading font-display font-bold text-[#0B0B0B] dark:text-[#EFEFE9]">
+          {lang === 'ru' ? 'Сравните старый и новый сайт' : 'Compare old and new interface'}
+        </h2>
 
-        {/* Pair selector tabs */}
-        <div className="flex flex-wrap gap-2">
+        <div
+          role="tablist"
+          aria-label={lang === 'ru' ? 'Экраны для сравнения' : 'Comparison screens'}
+          className="inline-flex flex-wrap items-center gap-1 p-1 bg-[#E5E4DC] dark:bg-[#16161B] rounded-[6px]"
+        >
           {pairs.map((pair, idx) => {
             const isSelected = idx === activeIdx;
             return (
               <button
                 key={pair.id}
                 type="button"
+                role="tab"
+                aria-selected={isSelected}
                 onClick={() => {
                   playMorph();
                   setActiveIdx(idx);
                   setSplitPct(50);
                 }}
                 onMouseEnter={() => playHover()}
-                className={`px-3 py-1.5 text-[11px] font-sans-body font-semibold uppercase tracking-[-0.01em] border transition-colors whitespace-nowrap shrink-0 ${
+                className={`px-3 py-1.5 rounded-[5px] type-sm font-medium transition-colors duration-150 whitespace-nowrap shrink-0 ${
                   isSelected
-                    ? 'bg-[#0B0B0B] dark:bg-[#E7FA53] text-[#EFEFE9] dark:text-[#0B0B0B] border-[#0B0B0B] dark:border-[#E7FA53]'
-                    : 'bg-transparent text-[#0B0B0B]/70 dark:text-[#EFEFE9]/75 border-[#0B0B0B]/18 dark:border-white/18 hover:border-[#0B0B0B] dark:hover:border-white/50'
+                    ? 'bg-[#0B0B0B] dark:bg-[#E7FA53] text-[#EFEFE9] dark:text-[#0B0B0B] font-semibold'
+                    : 'text-[#0B0B0B]/70 dark:text-[#EFEFE9]/75 hover:text-[#0B0B0B] dark:hover:text-white'
                 }`}
               >
-                {t(pair.label)}
+                {t(pair.label).replace(/^\d+\s*·\s*/, '')}
               </button>
             );
           })}
@@ -131,64 +126,57 @@ export function BeforeAfterShowcase({
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
-        data-cursor={lang === 'ru' ? 'Тяните' : 'Drag'}
-        className="relative w-full aspect-[16/9] overflow-hidden border border-[#0B0B0B]/15 dark:border-white/15 bg-[#0B0B0B] select-none touch-none cursor-ew-resize"
+        className="relative w-full aspect-[16/9] overflow-hidden border border-[#0B0B0B]/14 dark:border-white/14 bg-[#0B0B0B] select-none touch-none cursor-ew-resize"
       >
-        {/* Base Layer: AFTER */}
         <img
           src={active.afterSrc}
-          alt={`${t(active.label)} — ${lang === 'ru' ? 'После' : 'After'}`}
+          alt={`${t(active.label)} (${lang === 'ru' ? 'После' : 'After'})`}
           draggable={false}
           decoding="async"
           className="absolute inset-0 w-full h-full object-cover object-top"
         />
 
-        {/* Overlay Layer: BEFORE clipped smoothly */}
         <div
-          style={{
-            clipPath: `inset(0 ${100 - splitPct}% 0 0)`,
-          }}
+          style={{ clipPath: `inset(0 ${100 - splitPct}% 0 0)` }}
           className="absolute inset-0 will-change-[clip-path]"
         >
           <img
             src={active.beforeSrc}
-            alt={`${t(active.label)} — ${lang === 'ru' ? 'До' : 'Before'}`}
+            alt={`${t(active.label)} (${lang === 'ru' ? 'До' : 'Before'})`}
             draggable={false}
             decoding="async"
             className="absolute inset-0 w-full h-full object-cover object-top"
           />
         </div>
 
-        {/* Corner State Badges */}
-        <span className="pointer-events-none absolute top-3 left-3 z-10 px-2.5 py-1 bg-[#0B0B0B]/85 text-[#EFEFE9] font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em]">
-          {lang === 'ru' ? 'ДО' : 'BEFORE'} · {Math.round(splitPct)}%
+        <span className="pointer-events-none absolute top-3 left-3 z-10 px-2.5 py-1 bg-[#0B0B0B]/85 text-[#EFEFE9] type-sm tabular-nums font-medium">
+          {lang === 'ru' ? 'До' : 'Before'} · {Math.round(splitPct)}%
         </span>
         <span
           style={{ backgroundColor: accentColor }}
-          className="pointer-events-none absolute top-3 right-3 z-10 px-2.5 py-1 text-[#EFEFE9] font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.14em]"
+          className="pointer-events-none absolute top-3 right-3 z-10 px-2.5 py-1 text-[#EFEFE9] type-sm tabular-nums font-medium"
         >
-          {lang === 'ru' ? 'ПОСЛЕ' : 'AFTER'} · {Math.round(100 - splitPct)}%
+          {lang === 'ru' ? 'После' : 'After'} · {Math.round(100 - splitPct)}%
         </span>
 
-        {/* Split Line + Liquid Glass Handle */}
         <div
           style={{ left: `${splitPct}%` }}
           className="pointer-events-none absolute inset-y-0 w-[2px] -translate-x-1/2 bg-[#EFEFE9] shadow-[0_0_12px_rgba(11,11,11,0.55)] z-20"
         >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 rounded-[14px] liquid-glass-light flex items-center justify-center text-[#0B0B0B]">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 rounded-[12px] liquid-glass-light flex items-center justify-center text-[#0B0B0B]">
             <MoveHorizontal className="w-4 h-4" />
           </div>
         </div>
       </div>
 
-      {/* Caption Comparison Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <div className="p-4 sm:p-5 bg-[#E5E4DC] dark:bg-[#16161B] border border-[#0B0B0B]/12 dark:border-white/12 flex items-start justify-between gap-4">
-          <div>
-            <p className="font-mono-tabular text-[10px] uppercase tracking-[0.18em] text-[#0B0B0B]/55 dark:text-[#EFEFE9]/55 mb-1.5">
-              {lang === 'ru' ? 'БЫЛО (ДО)' : 'PREVIOUS (BEFORE)'}
-            </p>
-            <p className="text-sm text-[#0B0B0B]/85 dark:text-[#EFEFE9]/85 leading-relaxed">{t(active.beforeNote)}</p>
+      {/* Caption Comparison Columns */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className="p-5 bg-[#E5E4DC]/80 dark:bg-[#16161B] border border-[#0B0B0B]/12 dark:border-white/12 flex items-start justify-between gap-4">
+          <div className="space-y-1.5">
+            <h3 className="type-sm font-semibold text-[#0B0B0B]/65 dark:text-[#EFEFE9]/65">
+              {lang === 'ru' ? 'Было' : 'Before'}
+            </h3>
+            <p className="type-body text-[#0B0B0B]/85 dark:text-[#EFEFE9]/85">{t(active.beforeNote)}</p>
           </div>
           {onInspectImage && (
             <button
@@ -196,26 +184,23 @@ export function BeforeAfterShowcase({
               onClick={() =>
                 onInspectImage({
                   src: active.beforeSrc,
-                  caption: `${lang === 'ru' ? 'ДО' : 'BEFORE'} — ${t(active.label)}`,
+                  caption: `${lang === 'ru' ? 'До' : 'Before'}: ${t(active.label)}`,
                 })
               }
-              aria-label={lang === 'ru' ? 'Открыть скрин ДО' : 'Inspect BEFORE screen'}
-              className="p-2 border border-[#0B0B0B]/15 dark:border-white/18 hover:bg-[#0B0B0B] dark:hover:bg-[#E7FA53] hover:text-[#EFEFE9] dark:hover:text-[#0B0B0B] transition-colors shrink-0"
+              aria-label={lang === 'ru' ? 'Увеличить скриншот До' : 'Inspect Before screenshot'}
+              className="p-2 border border-[#0B0B0B]/15 dark:border-white/18 hover:bg-[#0B0B0B] dark:hover:bg-[#E7FA53] hover:text-[#EFEFE9] dark:hover:text-[#0B0B0B] transition-colors duration-150 shrink-0 rounded-[5px]"
             >
-              <Expand className="w-3.5 h-3.5" />
+              <Expand className="w-4 h-4" />
             </button>
           )}
         </div>
 
-        <div className="p-4 sm:p-5 bg-[#0B0B0B] dark:bg-[#1A1A24] text-[#EFEFE9] border border-[#0B0B0B] dark:border-[#E7FA53]/30 flex items-start justify-between gap-4">
-          <div>
-            <p
-              style={{ color: '#E7FA53' }}
-              className="font-mono-tabular text-[10px] uppercase tracking-[0.18em] mb-1.5"
-            >
-              {lang === 'ru' ? 'СТАЛО (ПОСЛЕ)' : 'REDESIGN (AFTER)'}
-            </p>
-            <p className="text-sm text-[#EFEFE9]/90 leading-relaxed">{t(active.afterNote)}</p>
+        <div className="p-5 bg-[#0B0B0B] dark:bg-[#1A1A24] text-[#EFEFE9] border border-[#0B0B0B] dark:border-[#E7FA53]/30 flex items-start justify-between gap-4">
+          <div className="space-y-1.5">
+            <h3 className="type-sm font-semibold text-[#E7FA53]">
+              {lang === 'ru' ? 'Стало' : 'After'}
+            </h3>
+            <p className="type-body text-[#EFEFE9]/90">{t(active.afterNote)}</p>
           </div>
           {onInspectImage && (
             <button
@@ -223,26 +208,26 @@ export function BeforeAfterShowcase({
               onClick={() =>
                 onInspectImage({
                   src: active.afterSrc,
-                  caption: `${lang === 'ru' ? 'ПОСЛЕ' : 'AFTER'} — ${t(active.label)}`,
+                  caption: `${lang === 'ru' ? 'После' : 'After'}: ${t(active.label)}`,
                 })
               }
-              aria-label={lang === 'ru' ? 'Открыть скрин ПОСЛЕ' : 'Inspect AFTER screen'}
-              className="p-2 border border-white/20 hover:bg-[#E7FA53] hover:text-[#0B0B0B] transition-colors shrink-0"
+              aria-label={lang === 'ru' ? 'Увеличить скриншот После' : 'Inspect After screenshot'}
+              className="p-2 border border-white/20 hover:bg-[#E7FA53] hover:text-[#0B0B0B] transition-colors duration-150 shrink-0 rounded-[5px]"
             >
-              <Expand className="w-3.5 h-3.5" />
+              <Expand className="w-4 h-4" />
             </button>
           )}
         </div>
       </div>
 
-      {/* Extra Curated Exhibition Plates (After modules, Maps, Lead form, GOST mode) */}
+      {/* Extra Exhibition Plates */}
       {extraPlates.length > 0 && (
         <div className="mt-10 pt-8 border-t border-[#0B0B0B]/12 dark:border-white/12">
-          <p className="font-mono-tabular text-[10px] uppercase tracking-[0.2em] text-[#D61914] dark:text-[#E7FA53] mb-5">
+          <h3 className="type-heading font-display font-bold mb-5 text-[#0B0B0B] dark:text-[#EFEFE9]">
             {lang === 'ru'
-              ? 'ЭКРАНЫ СИСТЕМЫ · ФОРМА ЗАЯВКИ, КАРТА И ГОСТ ДЛЯ СЛАБОВИДЯЩИХ'
-              : 'SYSTEM SCREENS · BOOKING FLOW, MAP & ACCESSIBILITY MODE'}
-          </p>
+              ? 'Дополнительные экраны системы'
+              : 'Additional system screens'}
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {extraPlates.map((plate, i) => (
               <button
@@ -251,12 +236,11 @@ export function BeforeAfterShowcase({
                 onClick={() =>
                   onInspectImage?.({
                     src: plate.src,
-                    caption: `${plate.tag} — ${t(plate.caption)}`,
+                    caption: `${plate.tag}: ${t(plate.caption)}`,
                   })
                 }
                 onMouseEnter={() => playHover()}
-                data-cursor={lang === 'ru' ? 'Увеличить' : 'Inspect'}
-                className="group text-left bg-[#E5E4DC] dark:bg-[#16161B] border border-[#0B0B0B]/12 dark:border-white/12 overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1"
+                className="group text-left bg-[#E5E4DC]/80 dark:bg-[#16161B] border border-[#0B0B0B]/12 dark:border-white/12 overflow-hidden transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5"
               >
                 <div className="aspect-[16/10] w-full overflow-hidden bg-[#0B0B0B]">
                   <img
@@ -264,16 +248,11 @@ export function BeforeAfterShowcase({
                     alt={t(plate.caption)}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.04]"
+                    className="w-full h-full object-cover object-top transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
                   />
                 </div>
-                <div className="p-3.5">
-                  <p className="font-mono-tabular text-[10px] uppercase tracking-[0.16em] text-[#D61914] dark:text-[#E7FA53] mb-1">
-                    {plate.tag}
-                  </p>
-                  <p className="text-xs sm:text-sm font-medium text-[#0B0B0B] dark:text-[#EFEFE9] leading-snug">
-                    {t(plate.caption)}
-                  </p>
+                <div className="p-4">
+                  <p className="type-sm text-[#0B0B0B] dark:text-[#EFEFE9]">{t(plate.caption)}</p>
                 </div>
               </button>
             ))}

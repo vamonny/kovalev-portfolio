@@ -3,7 +3,6 @@ import { Expand } from 'lucide-react';
 import { BilingualText } from '../i18n/translations';
 import { useLanguage } from '../context/LanguageContext';
 import { useSound } from '../context/SoundContext';
-import { ScrambleText } from './ScrambleText';
 
 export type IdentityCarrierGroup = 'identity' | 'print' | 'merch' | 'digital';
 
@@ -38,22 +37,22 @@ export function IdentityShowcase({
     () => [
       {
         key: 'all',
-        label: lang === 'ru' ? 'Все носители' : 'All Touchpoints',
+        label: lang === 'ru' ? 'Все носители' : 'All touchpoints',
         count: plates.length,
       },
       {
         key: 'identity',
-        label: lang === 'ru' ? 'Знак и паттерн' : 'Logo & Pattern',
+        label: lang === 'ru' ? 'Знак и паттерн' : 'Logo & pattern',
         count: plates.filter((p) => p.group === 'identity').length,
       },
       {
         key: 'print',
-        label: lang === 'ru' ? 'Полиграфия' : 'Print & Stationery',
+        label: lang === 'ru' ? 'Полиграфия' : 'Print & stationery',
         count: plates.filter((p) => p.group === 'print').length,
       },
       {
         key: 'merch',
-        label: lang === 'ru' ? 'Мерч и награды' : 'Merch & Awards',
+        label: lang === 'ru' ? 'Мерч и награды' : 'Merch & awards',
         count: plates.filter((p) => p.group === 'merch').length,
       },
       {
@@ -71,58 +70,47 @@ export function IdentityShowcase({
   );
 
   return (
-    <section className="max-w-[1380px] mx-auto px-5 sm:px-8 py-12 sm:py-16">
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[#0B0B0B]/12 dark:border-white/12">
-        <div>
-          <p
-            style={{ color: accentColor }}
-            className="font-mono-tabular text-[11px] uppercase tracking-[0.2em] mb-2 font-semibold dark:!text-[#E7FA53]"
-          >
-            <ScrambleText
-              text={
-                lang === 'ru'
-                  ? 'СИСТЕМА НОСИТЕЛЕЙ · 11 ПОЗИЦИЙ'
-                  : 'IDENTITY SYSTEM · 11 TOUCHPOINTS'
-              }
-              triggerKey={`id-eye-${lang}`}
-              duration={360}
-            />
-          </p>
-          <h2 className="font-display font-extrabold uppercase tracking-[-0.035em] text-[clamp(1.6rem,3.4vw,2.8rem)] leading-[0.95] text-[#0B0B0B] dark:text-[#EFEFE9]">
-            {lang === 'ru'
-              ? 'Фирменный стиль, полиграфия, мерч и веб'
-              : 'Logo, Print, Merchandise & Web UI'}
-          </h2>
-        </div>
+    <section className="max-w-[1380px] mx-auto px-4 sm:px-8 py-12 sm:py-16">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-[#0B0B0B]/12 dark:border-white/12 mb-8">
+        <h2 className="type-heading font-display font-bold text-[#0B0B0B] dark:text-[#EFEFE9]">
+          {lang === 'ru'
+            ? 'Фирменный стиль, полиграфия, мерч и веб'
+            : 'Logo, print, merchandise and web UI'}
+        </h2>
 
-        <div className="flex flex-wrap gap-1.5">
+        <div
+          role="tablist"
+          aria-label={lang === 'ru' ? 'Группы носителей' : 'Touchpoint groups'}
+          className="inline-flex flex-wrap items-center gap-1 p-1 bg-[#E5E4DC] dark:bg-[#16161B] rounded-[6px]"
+        >
           {filters.map((f) => {
             const active = group === f.key;
             return (
               <button
                 key={f.key}
                 type="button"
+                role="tab"
+                aria-selected={active}
                 onClick={() => {
                   playMorph();
                   setGroup(f.key);
                 }}
                 onMouseEnter={() => playHover()}
-                aria-pressed={active}
-                className={`px-3 py-2 font-mono-tabular text-[11px] uppercase tracking-[0.06em] border transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-[5px] type-sm font-medium transition-colors duration-150 whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
                   active
-                    ? 'bg-[#0B0B0B] dark:bg-[#E7FA53] text-[#E7FA53] dark:text-[#0B0B0B] border-[#0B0B0B] dark:border-[#E7FA53]'
-                    : 'bg-transparent text-[#0B0B0B]/75 dark:text-[#EFEFE9]/75 border-[#0B0B0B]/15 dark:border-white/18 hover:border-[#0B0B0B] dark:hover:border-white/50'
+                    ? 'bg-[#0B0B0B] dark:bg-[#E7FA53] text-[#EFEFE9] dark:text-[#0B0B0B]'
+                    : 'text-[#0B0B0B]/75 dark:text-[#EFEFE9]/75 hover:text-[#0B0B0B] dark:hover:text-[#EFEFE9]'
                 }`}
               >
                 <span>{f.label}</span>
-                <span className="opacity-55">{String(f.count).padStart(2, '0')}</span>
+                <span className="font-mono-tabular opacity-60">{f.count}</span>
               </button>
             );
           })}
         </div>
       </div>
 
-      <div className="pt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {visiblePlates.map((plate) => {
           const titleStr = t(plate.title);
           const isDarkPlate = plate.group === 'digital';
@@ -134,12 +122,12 @@ export function IdentityShowcase({
                 playClick();
                 onInspectImage({
                   src: plate.src,
-                  caption: `${plate.code} — ${titleStr}`,
+                  caption: `${plate.code} · ${titleStr}`,
                 });
               }}
               onMouseEnter={() => playHover()}
               data-cursor={lang === 'ru' ? 'Увеличить' : 'Inspect'}
-              className="group text-left border border-[#0B0B0B]/12 dark:border-white/12 bg-[#EFEFE9] dark:bg-[#16161B] flex flex-col justify-between overflow-hidden transition-colors duration-300 hover:border-[#0B0B0B]/45 dark:hover:border-white/40"
+              className="group text-left border border-[#0B0B0B]/12 dark:border-white/12 bg-[#EFEFE9] dark:bg-[#16161B] flex flex-col justify-between overflow-hidden transition-colors duration-200 hover:border-[#0B0B0B]/45 dark:hover:border-white/40"
             >
               <div
                 style={{
@@ -155,7 +143,7 @@ export function IdentityShowcase({
                   className="max-w-full max-h-full w-auto h-auto object-contain drop-shadow-[0_12px_22px_rgba(11,11,11,0.14)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
                 />
                 <span
-                  className={`absolute top-3 right-3 w-7 h-7 flex items-center justify-center border opacity-0 group-hover:opacity-100 transition-opacity ${
+                  className={`absolute top-3 right-3 w-8 h-8 flex items-center justify-center border opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${
                     isDarkPlate
                       ? 'bg-white/15 border-white/25 text-white'
                       : 'bg-[#0B0B0B] border-[#0B0B0B] text-[#EFEFE9]'
@@ -167,14 +155,17 @@ export function IdentityShowcase({
 
               <div className="p-5 flex-1 flex flex-col justify-between bg-[#EFEFE9]/45 dark:bg-[#16161B]">
                 <div>
-                  <p className="font-mono-tabular text-[10px] uppercase tracking-[0.16em] text-[#D61914] dark:text-[#E7FA53] mb-1.5">
+                  <span
+                    style={{ color: accentColor }}
+                    className="font-mono-tabular type-sm font-medium dark:!text-[#E7FA53] block mb-1"
+                  >
                     {plate.code}
-                  </p>
-                  <h3 className="font-display font-bold uppercase text-base sm:text-lg leading-tight tracking-tight text-[#0B0B0B] dark:text-[#EFEFE9] group-hover:text-[#D61914] dark:group-hover:text-[#E7FA53] transition-colors">
+                  </span>
+                  <h3 className="type-body font-display font-bold text-[#0B0B0B] dark:text-[#EFEFE9] group-hover:text-[#D61914] dark:group-hover:text-[#E7FA53] transition-colors duration-150">
                     {titleStr}
                   </h3>
                 </div>
-                <p className="font-sans-body text-xs sm:text-sm text-[#0B0B0B]/70 dark:text-[#EFEFE9]/70 leading-relaxed mt-2.5">
+                <p className="type-body text-[#0B0B0B]/70 dark:text-[#EFEFE9]/70 leading-relaxed mt-2.5">
                   {t(plate.note)}
                 </p>
               </div>

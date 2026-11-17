@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useProjects } from '../context/ProjectsContext';
@@ -8,9 +8,7 @@ import { useCurtainNavigation } from '../context/NavigationContext';
 import { useRubberScroll } from '../hooks/useRubberScroll';
 import { ProjectCase } from '../data/projects';
 import { translations } from '../i18n/translations';
-import { ScrambleText } from '../components/ScrambleText';
 import { RubberText } from '../components/RubberText';
-import { RubberWords } from '../components/RubberMotion';
 import {
   PortfolioWarpCarousel,
   PortfolioWarpCarouselHandle,
@@ -52,27 +50,66 @@ export function HomePage() {
     carouselRef.current?.impulseWheel(delta);
   };
 
-  const clampedVel = Math.max(-1.4, Math.min(1.4, scrollVel));
-  const carouselScale = 1 + Math.min(0.025, Math.abs(clampedVel) * 0.016);
-  const carouselLift = -clampedVel * 7;
-  const stripSkew = clampedVel * 1.1;
-  const leftSkew = clampedVel * 1.25;
-  const rightSkew = -clampedVel * 1.15;
-  const rightDrift = -clampedVel * 9;
+  const clampedVel = Math.max(-1.2, Math.min(1.2, scrollVel));
+  const carouselScale = 1 + Math.min(0.02, Math.abs(clampedVel) * 0.014);
 
   return (
     <div
       onWheel={handleWheel}
-      className="min-h-[calc(100vh-36px)] sm:min-h-[calc(100vh-40px)] bg-[#EFEFE9] dark:bg-[#0C0C0F] text-[#0B0B0B] dark:text-[#EFEFE9] flex flex-col justify-between pt-14 sm:pt-[68px] pb-11 overflow-hidden select-none transition-colors duration-300"
+      className="h-[100dvh] w-full bg-[#EFEFE9] dark:bg-[#0C0C0F] text-[#0B0B0B] dark:text-[#EFEFE9] flex flex-col pt-16 sm:pt-[76px] pb-10 overflow-hidden select-none transition-colors duration-200"
     >
-      {/* TOP HALF: WebGL2 3D Optical Warp Carousel + Editorial Active Project Strip */}
-      <section aria-label={t(translations.works.title)} className="w-full">
+      {/* Monumental Centered Hero Statement + Single Primary Action */}
+      <section className="shrink-0 max-w-[1380px] w-full mx-auto px-4 sm:px-8 pt-2 sm:pt-3 pb-1 text-center flex flex-col items-center">
+        <h1 className="font-display font-extrabold tracking-[-0.045em] leading-[0.94] text-[clamp(2rem,4.5vw,4.35rem)] text-[#0B0B0B] dark:text-[#EFEFE9] text-balance-safe max-w-4xl">
+          <RubberText
+            text={
+              lang === 'ru'
+                ? 'Визуальные системы с характером'
+                : 'Visual systems with character'
+            }
+            stretchStrength={0.95}
+            className="justify-center"
+          />
+        </h1>
+
+        <p className="type-body text-[#0B0B0B]/75 dark:text-[#EFEFE9]/75 max-w-[56ch] mt-2.5 sm:mt-3">
+          {lang === 'ru'
+            ? 'Графический дизайн, типографика и веб-интерфейсы, собранные в единый выразительный ритм.'
+            : 'Graphic design, typography, and digital interfaces crafted as a cohesive living system.'}
+        </p>
+
+        <div className="mt-3.5 sm:mt-4">
+          <button
+            type="button"
+            onClick={() =>
+              navigateWithCurtain('/works', {
+                italicLine: lang === 'ru' ? 'АРХИВ' : 'SELECTED',
+                regularLine: lang === 'ru' ? 'РАБОТЫ' : 'WORKS',
+              })
+            }
+            onMouseEnter={() => playHover()}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0B0B0B] dark:bg-[#E7FA53] text-[#EFEFE9] dark:text-[#0B0B0B] hover:bg-[#D61914] dark:hover:bg-white hover:text-white dark:hover:text-[#0B0B0B] type-sm font-semibold rounded-[6px] transition-colors duration-200"
+          >
+            <span>{t(translations.home.heroExplore)}</span>
+            <ArrowUpRight className="w-4 h-4" />
+          </button>
+        </div>
+      </section>
+
+      {/* Flex-Filling Interactive WebGL Showcase Stage (Fits 100% Inside Single Screen) */}
+      <section
+        aria-label={t(translations.works.title)}
+        className="flex-1 min-h-0 w-full flex flex-col justify-between mt-1"
+      >
         <div
           style={{
-            transform: `translate3d(0, ${carouselLift.toFixed(2)}px, 0) scale(${carouselScale.toFixed(4)})`,
-            transition: Math.abs(clampedVel) > 0.01 ? 'none' : 'transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transform: `scale(${carouselScale.toFixed(4)})`,
+            transition:
+              Math.abs(clampedVel) > 0.01
+                ? 'none'
+                : 'transform 320ms cubic-bezier(0.22, 1, 0.36, 1)',
           }}
-          className="relative w-full h-[38vh] sm:h-[43vh] lg:h-[46vh] min-h-[290px] max-h-[490px] will-change-transform"
+          className="flex-1 min-h-[190px] w-full will-change-transform"
         >
           <PortfolioWarpCarousel
             ref={carouselRef}
@@ -89,54 +126,43 @@ export function HomePage() {
         </div>
 
         {currentProject && (
-          <div
-            style={{
-              transform: `translate3d(0, ${(-clampedVel * 4).toFixed(2)}px, 0) skewY(${(stripSkew * 0.35).toFixed(2)}deg)`,
-              transition: Math.abs(clampedVel) > 0.01 ? 'none' : 'transform 480ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-            }}
-            className="border-t border-b border-[#0B0B0B]/10 dark:border-[#EFEFE9]/12 px-4 sm:px-7 py-2.5 flex flex-wrap items-center justify-between gap-3 bg-[#EFEFE9] dark:bg-[#0C0C0F] transition-colors duration-300 will-change-transform"
-          >
+          <div className="shrink-0 border-t border-[#0B0B0B]/12 dark:border-white/12 px-4 sm:px-8 py-2.5 flex flex-wrap items-center justify-between gap-4 bg-[#EFEFE9] dark:bg-[#0C0C0F] transition-colors duration-200">
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 min-w-0">
-              <span className="font-mono-tabular text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.08em] text-[#0B0B0B]/55 dark:text-[#EFEFE9]/55 shrink-0">
-                {String(activeIndex + 1).padStart(2, '0')} /{' '}
-                {String(projects.length).padStart(2, '0')} · {currentProject.slotCode}
+              <span className="type-sm tabular-nums font-medium text-[#0B0B0B]/60 dark:text-[#EFEFE9]/60 shrink-0">
+                {activeIndex + 1} / {projects.length}
               </span>
 
               <button
                 type="button"
                 onClick={() => openProject(currentProject)}
                 onMouseEnter={() => playHover()}
-                className="font-display font-bold text-[15px] sm:text-[18px] tracking-[-0.03em] uppercase leading-[1.06] text-[#0B0B0B] dark:text-[#EFEFE9] hover:text-[#D61914] transition-colors text-left truncate max-w-[70vw] sm:max-w-[44vw]"
+                className="font-display font-bold text-base sm:text-lg tracking-[-0.02em] text-[#0B0B0B] dark:text-[#EFEFE9] hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-colors duration-150 text-left truncate max-w-[68vw] sm:max-w-[44vw]"
               >
-                <ScrambleText
-                  text={shortTitle}
-                  triggerKey={`active-${currentProject.id}-${lang}`}
-                  duration={320}
-                />
+                {shortTitle}
               </button>
 
-              <span className="hidden md:inline-block font-serif-editorial italic text-[13px] text-[#0B0B0B]/65 dark:text-[#EFEFE9]/65 truncate">
+              <span className="hidden md:inline-block type-sm text-[#0B0B0B]/60 dark:text-[#EFEFE9]/60 truncate">
                 {t(currentProject.categoryLabel)}
               </span>
             </div>
 
             <div className="flex items-center gap-3 shrink-0 ml-auto">
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center bg-[#E5E4DC] dark:bg-[#16161B] p-0.5 rounded-[6px]">
                 <button
                   type="button"
                   onClick={() => carouselRef.current?.prev()}
                   aria-label={lang === 'ru' ? 'Предыдущий проект' : 'Previous project'}
-                  className="w-8 h-8 border border-[#0B0B0B]/15 dark:border-[#EFEFE9]/20 hover:border-[#0B0B0B] dark:hover:border-[#E7FA53] hover:bg-[#0B0B0B] dark:hover:bg-[#E7FA53] hover:text-[#EFEFE9] dark:hover:text-[#0B0B0B] transition-colors flex items-center justify-center"
+                  className="w-8 h-8 rounded-[5px] hover:bg-[#0B0B0B] dark:hover:bg-[#E7FA53] hover:text-[#EFEFE9] dark:hover:text-[#0B0B0B] transition-colors duration-150 flex items-center justify-center"
                 >
-                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <ArrowLeft className="w-4 h-4" />
                 </button>
                 <button
                   type="button"
                   onClick={() => carouselRef.current?.next()}
                   aria-label={lang === 'ru' ? 'Следующий проект' : 'Next project'}
-                  className="w-8 h-8 border border-[#0B0B0B]/15 dark:border-[#EFEFE9]/20 hover:border-[#0B0B0B] dark:hover:border-[#E7FA53] hover:bg-[#0B0B0B] dark:hover:bg-[#E7FA53] hover:text-[#EFEFE9] dark:hover:text-[#0B0B0B] transition-colors flex items-center justify-center"
+                  className="w-8 h-8 rounded-[5px] hover:bg-[#0B0B0B] dark:hover:bg-[#E7FA53] hover:text-[#EFEFE9] dark:hover:text-[#0B0B0B] transition-colors duration-150 flex items-center justify-center"
                 >
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
 
@@ -144,119 +170,13 @@ export function HomePage() {
                 type="button"
                 onClick={() => openProject(currentProject)}
                 onMouseEnter={() => playHover()}
-                className="font-sans-body text-[11px] sm:text-[12px] font-semibold uppercase tracking-[-0.01em] underline underline-offset-4 hover:text-[#D61914] transition-colors"
+                className="type-sm font-semibold underline underline-offset-4 hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-colors duration-150 whitespace-nowrap"
               >
-                {lang === 'ru' ? 'Открыть кейс ↗' : 'Open case ↗'}
+                {lang === 'ru' ? 'Открыть кейс' : 'Open case'}
               </button>
             </div>
           </div>
         )}
-      </section>
-
-      {/* BOTTOM HALF: Monumental Swiss Rubber Wordmark Left + Editorial Designer Statement Right */}
-      <section className="px-4 sm:px-7 pt-3 pb-3 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-end">
-        <div
-          style={{
-            transform: `translate3d(0, ${(-clampedVel * 6).toFixed(2)}px, 0) skewY(${(leftSkew * 0.45).toFixed(2)}deg)`,
-            transition: Math.abs(clampedVel) > 0.01 ? 'none' : 'transform 480ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-          }}
-          className="lg:col-span-7 will-change-transform"
-        >
-          <div className="flex items-center gap-2.5 mb-2">
-            <span className="font-sans-body text-[10px] sm:text-[11px] font-semibold tracking-[0.12em] uppercase text-[#0B0B0B]/70 dark:text-[#EFEFE9]/70">
-              KIRILL
-            </span>
-            <span aria-hidden="true" className="text-[#0B0B0B]/30 dark:text-[#EFEFE9]/30">
-              ·
-            </span>
-            <span className="font-serif-editorial italic text-[12px] sm:text-[13px] tracking-[0.02em] text-[#D61914] dark:text-[#E7FA53]">
-              {t(translations.home.thesisTitle)}
-            </span>
-          </div>
-
-          <h1 className="font-display font-extrabold uppercase tracking-[-0.055em] leading-[0.82] text-[clamp(4rem,12.4vw,11.5rem)] text-[#0B0B0B] dark:text-[#EFEFE9] whitespace-nowrap">
-            <RubberText
-              text="KOVALEV"
-              stretchStrength={1.2}
-              cursorLabel={lang === 'ru' ? 'Работы' : 'Works'}
-              onClick={() =>
-                navigateWithCurtain('/works', {
-                  italicLine: lang === 'ru' ? 'ВСЕ' : 'ALL',
-                  regularLine: lang === 'ru' ? 'РАБОТЫ' : 'WORKS',
-                })
-              }
-              className="hover:text-[#D61914] transition-colors duration-300 cursor-pointer flex-nowrap"
-            />
-          </h1>
-        </div>
-
-        <div
-          style={{
-            transform: `translate3d(0, ${rightDrift.toFixed(2)}px, 0) skewY(${(rightSkew * 0.45).toFixed(2)}deg)`,
-            transition: Math.abs(clampedVel) > 0.01 ? 'none' : 'transform 480ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-          }}
-          className="lg:col-span-5 lg:pb-1.5 pr-14 sm:pr-16 lg:pr-20 will-change-transform"
-        >
-          <p className="font-sans-body text-[13px] sm:text-[14px] font-medium uppercase tracking-[-0.015em] text-[#0B0B0B] dark:text-[#EFEFE9] mb-2.5 flex flex-wrap items-baseline gap-x-2">
-            <ScrambleText
-              text={lang === 'ru' ? 'КИРИЛЛ КОВАЛЁВ' : 'KIRILL KOVALEV'}
-              triggerOnHover
-              triggerKey={`exp-${lang}-${currentProject?.id || '0'}`}
-              duration={360}
-            />
-            <span className="font-serif-editorial italic font-semibold lowercase text-[15px] sm:text-[16px] text-[#D61914] dark:text-[#E7FA53]">
-              experience©
-            </span>
-          </p>
-
-          <RubberWords
-            text={t(translations.home.heroLead)}
-            elasticity={1.08}
-            className="font-sans-body text-[16px] sm:text-[18.5px] leading-[1.28] tracking-[-0.02em] text-[#0B0B0B] dark:text-[#EFEFE9]/88 max-w-[430px] font-normal"
-          />
-
-          <div className="mt-4 flex flex-wrap items-center gap-5 text-[12px] font-semibold uppercase tracking-[-0.01em] text-[#0B0B0B] dark:text-[#EFEFE9]">
-            <button
-              type="button"
-              onClick={() =>
-                navigateWithCurtain('/works', {
-                  italicLine: lang === 'ru' ? 'АРХИВ' : 'SELECTED',
-                  regularLine: lang === 'ru' ? 'РАБОТЫ' : 'WORKS',
-                })
-              }
-              onMouseEnter={() => playHover()}
-              className="underline underline-offset-4 hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-0.5 hover:scale-105"
-            >
-              {t(translations.home.heroExplore)} ↗
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                navigateWithCurtain('/dome', {
-                  italicLine: lang === 'ru' ? 'СФЕРА' : '3D DOME',
-                  regularLine: lang === 'ru' ? 'ВСЕ РАБОТЫ' : 'ARCHIVE',
-                })
-              }
-              onMouseEnter={() => playHover()}
-              className="underline underline-offset-4 hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-0.5 hover:scale-105"
-            >
-              {lang === 'ru' ? '3D Сфера' : '3D Sphere'} ↗
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                navigateWithCurtain('/contacts', {
-                  italicLine: lang === 'ru' ? 'СВЯЗЬ' : 'LET’S',
-                  regularLine: lang === 'ru' ? 'КОНТАКТЫ' : 'TALK',
-                })
-              }
-              onMouseEnter={() => playHover()}
-              className="underline underline-offset-4 hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-0.5 hover:scale-105"
-            >
-              {t(translations.home.heroConnect)} ↗
-            </button>
-          </div>
-        </div>
       </section>
     </div>
   );

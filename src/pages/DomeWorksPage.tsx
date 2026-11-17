@@ -1,12 +1,11 @@
 import { useMemo, useRef, useState } from 'react';
-import { ArrowUpRight, Grid2x2, Moon, Palette, Sun, X } from 'lucide-react';
+import { ArrowUpRight, Palette, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useProjects } from '../context/ProjectsContext';
 import { useSound } from '../context/SoundContext';
 import { useCurtainNavigation } from '../context/NavigationContext';
 import { DomeGallery, DomeGalleryHandle, DomeImageItem } from '../components/DomeGallery';
-import { ScrambleText } from '../components/ScrambleText';
 
 type DomeFilter = 'all' | 'slot-01' | 'slot-02' | 'slot-03' | 'slot-04' | 'slot-05' | 'slot-06';
 
@@ -15,7 +14,7 @@ interface TaggedDomeItem extends DomeImageItem {
 }
 
 export function DomeWorksPage() {
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark } = useTheme();
   const { lang, t } = useLanguage();
   const { projects } = useProjects();
   const { playClick, playHover, playMorph, playPluck } = useSound();
@@ -69,27 +68,11 @@ export function DomeWorksPage() {
       if (p.id === 'slot-01') {
         pushUnique('slot-01', p.coverImage, title, p.slug, title, cat, p.year);
         p.beforeAfter?.pairs.forEach((pair) => {
-          pushUnique(
-            'slot-01',
-            pair.afterSrc,
-            `${title} — ${t(pair.label)}`,
-            p.slug,
-            title,
-            cat,
-            p.year
-          );
+          pushUnique('slot-01', pair.afterSrc, `${title} · ${t(pair.label)}`, p.slug, title, cat, p.year);
         });
         p.beforeAfter?.extraPlates?.forEach((plate) => {
           if (plate.tag.includes('BEFORE')) return;
-          pushUnique(
-            'slot-01',
-            plate.src,
-            t(plate.caption),
-            p.slug,
-            title,
-            cat,
-            p.year
-          );
+          pushUnique('slot-01', plate.src, t(plate.caption), p.slug, title, cat, p.year);
         });
       }
 
@@ -99,7 +82,7 @@ export function DomeWorksPage() {
             pushUnique(
               'slot-02',
               series.spreadImage.src,
-              `${t(series.name)} — ${t(series.spreadImage.caption)}`,
+              `${t(series.name)} · ${t(series.spreadImage.caption)}`,
               p.slug,
               title,
               cat,
@@ -136,31 +119,15 @@ export function DomeWorksPage() {
       }
 
       if (p.id === 'slot-04') {
-        pushUnique(
-          'slot-04',
-          p.coverImage,
-          'logofolio. (2024–2026)',
-          p.slug,
-          title,
-          cat,
-          p.year
-        );
+        pushUnique('slot-04', p.coverImage, 'logofolio. (2024–2026)', p.slug, title, cat, p.year);
         if (p.logofolioData?.coverPlateSrc) {
-          pushUnique(
-            'slot-04',
-            p.logofolioData.coverPlateSrc,
-            'logofolio. Plate (2024–2026)',
-            p.slug,
-            title,
-            cat,
-            p.year
-          );
+          pushUnique('slot-04', p.logofolioData.coverPlateSrc, 'logofolio. Plate', p.slug, title, cat, p.year);
         }
         p.logofolioData?.plates.forEach((plate) => {
           pushUnique(
             'slot-04',
             plate.src,
-            `${plate.brand} — ${t(plate.niche)} (${plate.year})`,
+            `${plate.brand} · ${t(plate.niche)} (${plate.year})`,
             p.slug,
             title,
             cat,
@@ -168,37 +135,21 @@ export function DomeWorksPage() {
           );
         });
       }
+
       if (p.id === 'slot-05') {
-        pushUnique('slot-05', p.coverImage, `${title} — VIP Suite`, p.slug, title, cat, p.year);
+        pushUnique('slot-05', p.coverImage, title, p.slug, title, cat, p.year);
         p.brandbookData?.slides.forEach((slide) => {
-          pushUnique(
-            'slot-05',
-            slide.src,
-            `${t(slide.title)} (${slide.page})`,
-            p.slug,
-            title,
-            cat,
-            p.year
-          );
+          pushUnique('slot-05', slide.src, `${t(slide.title)} (${slide.page})`, p.slug, title, cat, p.year);
         });
       }
 
       if (p.id === 'slot-06') {
         p.identityPlates?.forEach((plate) => {
-          pushUnique(
-            'slot-06',
-            plate.src,
-            `${t(plate.title)} (${plate.code})`,
-            p.slug,
-            title,
-            cat,
-            p.year
-          );
+          pushUnique('slot-06', plate.src, `${t(plate.title)} (${plate.code})`, p.slug, title, cat, p.year);
         });
       }
     }
 
-    // Interleave rounds across projects so adjacent dome tiles show rich visual contrast
     const buckets = [
       byProject['slot-06'],
       byProject['slot-05'],
@@ -223,7 +174,7 @@ export function DomeWorksPage() {
   );
 
   const filterTabs: Array<{ id: DomeFilter; label: string }> = [
-    { id: 'all', label: lang === 'ru' ? 'Все работы' : 'All Works' },
+    { id: 'all', label: lang === 'ru' ? 'Все работы' : 'All works' },
     { id: 'slot-06', label: 'OpenSpace' },
     { id: 'slot-05', label: 'PAFOS' },
     { id: 'slot-04', label: lang === 'ru' ? 'Логофолио' : 'Logofolio' },
@@ -250,9 +201,8 @@ export function DomeWorksPage() {
   return (
     <div
       style={{ backgroundColor: overlayColor }}
-      className="relative w-screen h-[100dvh] overflow-hidden select-none transition-colors duration-300"
+      className="relative w-screen h-[100dvh] overflow-hidden select-none transition-colors duration-200"
     >
-      {/* Fullscreen React Bits 3D Dome Gallery */}
       <div className="w-full h-full">
         <DomeGallery
           ref={domeRef}
@@ -263,8 +213,8 @@ export function DomeWorksPage() {
           overlayBlurColor={overlayColor}
           grayscale={grayscale}
           isLightTheme={isLightTheme}
-          imageBorderRadius="18px"
-          openedImageBorderRadius="18px"
+          imageBorderRadius="16px"
+          openedImageBorderRadius="16px"
           openedImageWidth="min(84vw, 760px)"
           openedImageHeight="min(66vh, 520px)"
           onInspectChange={setInspected}
@@ -272,182 +222,87 @@ export function DomeWorksPage() {
         />
       </div>
 
-      {/* Top HUD Bar (sits cleanly beneath global GooeyNav dock) */}
-      <header className="pointer-events-none fixed top-0 left-0 right-0 z-30 pt-[66px] sm:pt-[76px] px-3.5 sm:px-5 pb-2 pr-4 sm:pr-20 flex flex-col gap-2.5">
-        <div className="flex flex-wrap items-center justify-between gap-2.5">
+      {/* Connected Filter Controls Bar Beneath Top Header */}
+      <div className="pointer-events-none fixed top-16 sm:top-20 left-0 right-0 z-30 px-4 sm:px-8 flex flex-wrap items-center justify-between gap-3">
+        <h1
+          className={`pointer-events-auto type-heading font-display font-bold ${
+            isLightTheme ? 'text-[#0B0B0B]' : 'text-[#EFEFE9]'
+          }`}
+        >
+          {lang === 'ru' ? '3D сфера работ' : '3D works sphere'}
+        </h1>
+
+        <div className="pointer-events-auto flex flex-wrap items-center gap-2">
           <div
-            className={`pointer-events-auto inline-flex items-center gap-3 px-3.5 py-2 rounded-[14px] ${
-              isLightTheme
-                ? 'liquid-glass-light text-[#0B0B0B]'
-                : 'liquid-glass-dark text-[#EFEFE9]'
+            role="tablist"
+            aria-label={lang === 'ru' ? 'Фильтр 3D сферы' : '3D sphere filter'}
+            className={`inline-flex flex-wrap items-center gap-1 p-1 rounded-[8px] ${
+              isLightTheme ? 'liquid-glass-light' : 'liquid-glass-dark'
             }`}
           >
-            <div>
-              <p className="font-mono-tabular text-[9px] sm:text-[10px] uppercase tracking-[0.16em] text-[#D61914] font-semibold leading-none mb-1">
-                <ScrambleText
-                  text={
-                    lang === 'ru'
-                      ? `3D СФЕРА · ${filteredItems.length} РАБОТ`
-                      : `3D DOME · ${filteredItems.length} WORKS`
-                  }
-                  triggerKey={`dome-cnt-${filteredItems.length}-${lang}`}
-                  duration={260}
-                />
-              </p>
-              <h1 className="font-display font-bold uppercase tracking-[-0.03em] text-sm sm:text-base leading-none">
-                {lang === 'ru' ? (
-                  <>
-                    Вся экспозиция{' '}
-                    <span className="font-serif-editorial italic font-semibold lowercase text-[#D61914] dark:text-[#E7FA53]">
-                      в сфере
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    Full Exhibition{' '}
-                    <span className="font-serif-editorial italic font-semibold lowercase text-[#D61914] dark:text-[#E7FA53]">
-                      sphere
-                    </span>
-                  </>
-                )}
-              </h1>
-            </div>
-
-            <span
-              aria-hidden="true"
-              className={`h-6 w-px ${isLightTheme ? 'bg-[#0B0B0B]/15' : 'bg-white/15'}`}
-            />
-
-            <button
-              type="button"
-              onClick={() => {
-                document.body.classList.remove('dg-scroll-lock');
-                navigateWithCurtain('/works', {
-                  italicLine: lang === 'ru' ? 'СЕТКА' : 'GRID',
-                  regularLine: lang === 'ru' ? 'РАБОТ' : 'WORKS',
-                });
-              }}
-              onMouseEnter={() => playHover()}
-              className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-mono-tabular font-semibold uppercase tracking-[0.06em] hover:text-[#D61914] transition-colors whitespace-nowrap"
-            >
-              <Grid2x2 className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">
-                {lang === 'ru' ? 'Сетка' : 'Grid'}
-              </span>
-            </button>
-          </div>
-
-          {/* Theme + Color + Filter Toolbar */}
-          <div className="pointer-events-auto flex flex-wrap items-center gap-1.5">
             {filterTabs.map((tab) => {
               const active = filter === tab.id;
               return (
                 <button
                   key={tab.id}
                   type="button"
+                  role="tab"
+                  aria-selected={active}
                   onClick={() => {
                     playMorph();
                     setFilter(tab.id);
                   }}
                   onMouseEnter={() => playHover()}
-                  className={`px-2.5 sm:px-3 py-1.5 rounded-[10px] text-[10px] sm:text-[11px] font-mono-tabular font-semibold uppercase tracking-[0.04em] transition-all border ${
+                  className={`px-3 py-1 rounded-[6px] type-sm font-medium transition-colors duration-150 whitespace-nowrap shrink-0 ${
                     active
                       ? isLightTheme
-                        ? 'bg-[#0B0B0B] text-[#E7FA53] border-[#0B0B0B]'
-                        : 'bg-[#E7FA53] text-[#0B0B0B] border-[#E7FA53]'
+                        ? 'bg-[#0B0B0B] text-[#E7FA53] font-semibold'
+                        : 'bg-[#E7FA53] text-[#0B0B0B] font-semibold'
                       : isLightTheme
-                      ? 'liquid-glass-light text-[#0B0B0B]/85 hover:text-[#D61914]'
-                      : 'liquid-glass-dark text-[#EFEFE9]/85 hover:text-[#E7FA53]'
+                      ? 'text-[#0B0B0B]/78 hover:text-[#0B0B0B]'
+                      : 'text-[#EFEFE9]/78 hover:text-white'
                   }`}
                 >
                   {tab.label}
                 </button>
               );
             })}
-
-            <button
-              type="button"
-              onClick={() => {
-                playClick();
-                setGrayscale((g) => !g);
-              }}
-              onMouseEnter={() => playHover()}
-              title={lang === 'ru' ? 'Переключить цвет / ЧБ' : 'Toggle Color / Grayscale'}
-              className={`px-2.5 py-1.5 rounded-[10px] text-[10px] sm:text-[11px] font-mono-tabular font-semibold uppercase tracking-[0.04em] inline-flex items-center gap-1.5 transition-colors ${
-                isLightTheme
-                  ? 'liquid-glass-light text-[#0B0B0B]'
-                  : 'liquid-glass-dark text-[#EFEFE9]'
-              }`}
-            >
-              <Palette className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">
-                {grayscale ? (lang === 'ru' ? 'Ч/Б' : 'B&W') : lang === 'ru' ? 'Цвет' : 'Color'}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                playClick();
-                toggleTheme();
-              }}
-              onMouseEnter={() => playHover()}
-              aria-label={lang === 'ru' ? 'Сменить тему сайта' : 'Toggle theme'}
-              className={`w-8 h-8 rounded-[10px] inline-flex items-center justify-center transition-colors ${
-                isLightTheme
-                  ? 'liquid-glass-light text-[#0B0B0B] hover:text-[#D61914]'
-                  : 'liquid-glass-dark text-[#EFEFE9] hover:text-[#E7FA53]'
-              }`}
-            >
-              {isLightTheme ? <Moon className="w-3.5 h-3.5" /> : <Sun className="w-3.5 h-3.5" />}
-            </button>
           </div>
-        </div>
-      </header>
 
-      {/* Bottom Gesture Hint (hidden when inspecting a work) */}
-      {!inspected && (
-        <div className="pointer-events-none fixed bottom-12 sm:bottom-14 left-4 sm:left-7 z-20 pr-16">
-          <p
-            className={`inline-block px-3 py-1.5 rounded-[10px] font-mono-tabular text-[10px] uppercase tracking-[0.12em] ${
-              isLightTheme
-                ? 'liquid-glass-light text-[#0B0B0B]/70'
-                : 'liquid-glass-dark text-[#EFEFE9]/75'
+          <button
+            type="button"
+            onClick={() => {
+              playClick();
+              setGrayscale((g) => !g);
+            }}
+            onMouseEnter={() => playHover()}
+            className={`px-3 py-2 rounded-[8px] type-sm font-medium inline-flex items-center gap-1.5 transition-colors duration-150 whitespace-nowrap shrink-0 ${
+              isLightTheme ? 'liquid-glass-light text-[#0B0B0B]' : 'liquid-glass-dark text-[#EFEFE9]'
             }`}
           >
-            {lang === 'ru'
-              ? 'Тяните или крутите колесо · Клик — открыть работу'
-              : 'Drag or scroll to orbit · Click tile to inspect'}
-          </p>
+            <Palette className="w-4 h-4" />
+            <span>
+              {grayscale ? (lang === 'ru' ? 'Ч/Б' : 'B&W') : lang === 'ru' ? 'Цвет' : 'Color'}
+            </span>
+          </button>
         </div>
-      )}
+      </div>
 
-      {/* Inspected Work Action Bar (appears when a tile enlarges) */}
+      {/* Inspected Work Action Bar */}
       {inspected && (
-        <div className="pointer-events-none fixed bottom-12 sm:bottom-14 left-4 right-16 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-40 flex justify-center">
+        <div className="pointer-events-none fixed bottom-14 left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-40 flex justify-center">
           <div
-            className={`pointer-events-auto rounded-[16px] px-4 py-2.5 sm:px-5 sm:py-3 flex flex-wrap items-center justify-between gap-3 sm:gap-5 max-w-[92vw] sm:max-w-2xl shadow-[0_20px_50px_-15px_rgba(0,0,0,0.35)] ${
+            className={`pointer-events-auto rounded-[10px] px-4 py-3 sm:px-5 flex flex-wrap items-center justify-between gap-4 max-w-[94vw] sm:max-w-2xl shadow-xl ${
               isLightTheme
                 ? 'liquid-glass-light text-[#0B0B0B]'
                 : 'liquid-glass-dark text-[#EFEFE9]'
             }`}
           >
             <div className="min-w-0">
-              <p
-                className={`font-mono-tabular text-[9px] sm:text-[10px] uppercase tracking-[0.14em] font-semibold truncate ${
-                  isLightTheme ? 'text-[#D61914]' : 'text-[#E7FA53]'
-                }`}
-              >
-                {inspected.categoryLabel}
-                {inspected.year ? ` · ${inspected.year}` : ''}
-              </p>
-              <p
-                className={`font-display font-bold text-xs sm:text-sm uppercase tracking-tight truncate max-w-[56vw] sm:max-w-[320px] ${
-                  isLightTheme ? 'text-[#0B0B0B]' : 'text-[#EFEFE9]'
-                }`}
-              >
+              <p className="type-sm font-semibold truncate max-w-[60vw] sm:max-w-[360px]">
                 {inspected.alt || inspected.projectTitle}
               </p>
+              <p className="type-sm opacity-70 truncate">{inspected.categoryLabel}</p>
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
@@ -456,14 +311,14 @@ export function DomeWorksPage() {
                   type="button"
                   onClick={openInspectedCase}
                   onMouseEnter={() => playHover()}
-                  className={`px-3.5 py-2 rounded-[10px] text-[10px] sm:text-[11px] font-mono-tabular font-semibold uppercase tracking-[0.06em] inline-flex items-center gap-1.5 transition-colors ${
+                  className={`px-4 py-2 rounded-[6px] type-sm font-semibold inline-flex items-center gap-1.5 transition-colors duration-150 whitespace-nowrap ${
                     isLightTheme
                       ? 'bg-[#0B0B0B] text-[#EFEFE9] hover:bg-[#D61914]'
-                      : 'bg-[#E7FA53] text-[#0B0B0B] hover:bg-[#D61914] hover:text-[#EFEFE9]'
+                      : 'bg-[#E7FA53] text-[#0B0B0B] hover:bg-white'
                   }`}
                 >
-                  <span>{lang === 'ru' ? 'Открыть кейс' : 'Open Case'}</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  <span>{lang === 'ru' ? 'Открыть кейс' : 'Open case'}</span>
+                  <ArrowUpRight className="w-4 h-4" />
                 </button>
               )}
 
@@ -474,9 +329,9 @@ export function DomeWorksPage() {
                   domeRef.current?.close();
                 }}
                 aria-label={lang === 'ru' ? 'Закрыть' : 'Close'}
-                className="w-8 h-8 rounded-[10px] border border-[#0B0B0B]/15 hover:bg-[#0B0B0B] hover:text-[#EFEFE9] flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-[6px] border border-current/20 flex items-center justify-center transition-colors duration-150"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
           </div>

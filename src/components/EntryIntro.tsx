@@ -244,8 +244,8 @@ export function EntryIntro() {
             }}
             className="mb-7 text-center pointer-events-none"
           >
-            <p className="font-mono-tabular text-[10px] tracking-[0.26em] uppercase text-[#6D7282] mb-2">
-              KIRILL KOVALEV
+            <p className="text-[13px] font-medium text-[#8C91A1] mb-2">
+              Kirill Kovalev
             </p>
             <h1 className="font-display text-[21px] sm:text-[24px] font-semibold tracking-[-0.025em] leading-tight text-[#EFEFE9]">
               {lang === 'ru' ? (
@@ -284,7 +284,7 @@ export function EntryIntro() {
             }}
             className="mt-7 flex flex-col items-center gap-3"
           >
-            <span className="font-mono-tabular text-[10px] tracking-[0.22em] uppercase text-[#7E8290]">
+            <span className="text-[13px] text-[#989CA8]">
               {lang === 'ru' ? 'Нажмите или потяните →' : 'Click or slide →'}
             </span>
 
@@ -292,7 +292,7 @@ export function EntryIntro() {
               type="button"
               onClick={() => handleActivate(false)}
               onMouseEnter={() => playHover()}
-              className="font-sans-body text-[12px] tracking-[-0.01em] text-[#6E717C] hover:text-[#B8BCC8] transition-colors cursor-pointer"
+              className="font-sans-body text-[13px] text-[#8E929E] hover:text-[#D4D7E0] transition-colors duration-150 cursor-pointer"
             >
               {lang === 'ru' ? 'Без звука' : 'Without sound'}
             </button>
@@ -333,13 +333,17 @@ export function EntryIntro() {
             />
           </div>
 
-          <div className="absolute bottom-7 left-0 right-0 px-6 flex items-center justify-between font-sans-body text-[10px] font-semibold tracking-[0.08em] uppercase text-[#0B0B0B]/55">
+          <div className="absolute bottom-7 left-0 right-0 px-6 flex items-center justify-between font-sans-body text-[13px] font-medium text-[#0B0B0B]/65">
             <span>
               {audioWantedRef.current && soundEnabled
-                ? 'KIRILL KOVALEV · SOUND ON'
-                : 'KIRILL KOVALEV · MUTE'}
+                ? lang === 'ru'
+                  ? 'Kirill Kovalev · звук включён'
+                  : 'Kirill Kovalev · sound on'
+                : lang === 'ru'
+                ? 'Kirill Kovalev · без звука'
+                : 'Kirill Kovalev · muted'}
             </span>
-            <span className="hover:text-[#D61914] transition-colors">
+            <span className="hover:text-[#D61914] transition-colors duration-150">
               {lang === 'ru' ? 'Нажмите, чтобы пропустить' : 'Click to skip'}
             </span>
           </div>

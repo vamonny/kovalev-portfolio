@@ -96,7 +96,7 @@ export function CurvedCurtain() {
       </div>
 
       {/* Bottom 000 -> 100 Tabular Counter */}
-      <div className="font-mono-tabular text-[11px] font-semibold tracking-[0.22em]">
+      <div className="font-mono-tabular type-sm font-semibold">
         {String(progress).padStart(3, '0')}
       </div>
     </div>
