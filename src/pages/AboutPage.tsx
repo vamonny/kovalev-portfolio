@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useSound } from '../context/SoundContext';
 import { translations } from '../i18n/translations';
 import { RubberBlock } from '../components/RubberMotion';
+import { RubberText } from '../components/RubberText';
 import { ResilientImage } from '../components/ResilientImage';
 import { GlassIconReveal, KOVALEV_K_SVG } from '../components/GlassIconReveal';
 
@@ -24,9 +25,9 @@ export function AboutPage() {
       <section className="max-w-[1380px] mx-auto px-4 sm:px-8 pt-20 sm:pt-24 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           {/* Left Column: Direct Heading + Uniform Body Prose + Hairline Spec Ledger */}
-          <RubberBlock immediate skewFactor={0.6} driftFactor={5} className="lg:col-span-7">
+          <RubberBlock immediate skewFactor={0.95} driftFactor={8} className="lg:col-span-7">
             <h1 className="font-display font-extrabold tracking-[-0.04em] leading-[0.95] text-[clamp(2.25rem,4.5vw,4rem)] mb-6 text-balance-safe">
-              {t(translations.about.title)}
+              <RubberText text={t(translations.about.title)} stretchStrength={0.85} />
             </h1>
 
             <p className="type-body text-[#0B0B0B]/85 dark:text-[#EFEFE9]/85 max-w-[60ch] mb-10">
@@ -125,7 +126,7 @@ export function AboutPage() {
           </RubberBlock>
 
           {/* Right Column: Portrait & Interactive Optical Seal */}
-          <RubberBlock immediate skewFactor={-0.6} driftFactor={-5} delay={0.05} className="lg:col-span-5 space-y-8">
+          <RubberBlock immediate skewFactor={-0.95} driftFactor={-8} delay={0.05} className="lg:col-span-5 space-y-8">
             <div>
               <ResilientImage
                 src="/assets/aistudio/image_8fdbeb1c.webp"

@@ -32,7 +32,7 @@ export function CaseSemyaView({
           'linear-gradient(to right, rgba(21,94,239,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(21,94,239,0.045) 1px, transparent 1px)',
         backgroundSize: '44px 44px',
       }}
-      className="min-h-screen bg-[#F5F8FC] dark:bg-[#070D17] text-[#0A1322] dark:text-[#EDF3FC] pb-20 overflow-x-hidden transition-colors duration-200"
+      className="min-h-screen bg-[#F5F8FC] dark:bg-[#070D17] text-[#0A1322] dark:text-[#EDF3FC] pb-20 overflow-x-clip transition-colors duration-200"
     >
       <CaseTopUtilityBar
         slotCode={project.slotCode}
@@ -48,27 +48,29 @@ export function CaseSemyaView({
           <RubberText text={cleanTitle} stretchStrength={0.85} className="justify-center" />
         </h1>
 
-        <p className="type-body text-[#0A1322]/78 dark:text-[#EDF3FC]/78 max-w-[58ch] mt-4">
-          {t(project.subtitle)}
-        </p>
+        <RubberBlock immediate skewFactor={0.45} driftFactor={4} className="flex flex-col items-center">
+          <p className="type-body text-[#0A1322]/78 dark:text-[#EDF3FC]/78 max-w-[58ch] mt-4">
+            {t(project.subtitle)}
+          </p>
 
-        {project.beforeAfter && (
-          <div className="mt-6">
-            <button
-              type="button"
-              onClick={() => showcaseRef.current?.scrollIntoView({ behavior: 'smooth' })}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#155EEF] hover:bg-[#0D4CD1] text-white type-sm font-semibold rounded-[6px] transition-colors duration-150"
-            >
-              <span>
-                {lang === 'ru' ? 'Сравнить старый и новый сайт' : 'Compare old and new site'}
-              </span>
-              <ArrowDownRight className="w-4 h-4" />
-            </button>
-          </div>
-        )}
+          {project.beforeAfter && (
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={() => showcaseRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#155EEF] hover:bg-[#0D4CD1] text-white type-sm font-semibold rounded-[6px] transition-colors duration-150"
+              >
+                <span>
+                  {lang === 'ru' ? 'Сравнить старый и новый сайт' : 'Compare old and new site'}
+                </span>
+                <ArrowDownRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+        </RubberBlock>
 
         {project.heroImage && (
-          <RubberBlock immediate skewFactor={-0.45} driftFactor={-4} className="w-full max-w-[1160px] mt-10">
+          <RubberBlock immediate skewFactor={-0.65} driftFactor={-6} className="w-full max-w-[1160px] mt-10">
             <button
               type="button"
               onClick={() =>
@@ -94,7 +96,7 @@ export function CaseSemyaView({
       {project.beforeAfter && (
         <div
           ref={showcaseRef}
-          className="border-y border-[#155EEF]/14 dark:border-[#00C6FF]/14 bg-white/75 dark:bg-[#09101D]/85 my-4"
+          className="scroll-mt-20 border-y border-[#155EEF]/14 dark:border-[#00C6FF]/14 bg-white/75 dark:bg-[#09101D]/85 my-4"
         >
           <BeforeAfterShowcase
             pairs={project.beforeAfter.pairs}
@@ -107,24 +109,24 @@ export function CaseSemyaView({
 
       {/* Project Brief & Diagnostic Audit */}
       <section className="max-w-[1380px] mx-auto px-4 sm:px-8 py-12 space-y-12">
-        <div className="max-w-[65ch] space-y-3">
+        <RubberBlock skewFactor={0.65} driftFactor={6} className="max-w-[65ch] space-y-3">
           <h2 className="type-heading font-display font-bold">
             {t(translations.caseStudy.sections.task).replace(/^\d+\.\s*/, '')}
           </h2>
           <p className="type-body text-[#0A1322]/82 dark:text-[#EDF3FC]/82">{t(project.task)}</p>
-        </div>
+        </RubberBlock>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-8 border-t border-[#155EEF]/14 dark:border-white/12">
-          <div className="lg:col-span-5 space-y-3">
+          <RubberBlock skewFactor={0.85} driftFactor={8} className="lg:col-span-5 space-y-3">
             <h2 className="type-heading font-display font-bold text-[#D61914] dark:text-[#FF7872]">
               {t(translations.caseStudy.sections.problem).replace(/^\d+\.\s*/, '')}
             </h2>
             <p className="type-body text-[#0A1322]/82 dark:text-[#EDF3FC]/82 max-w-[60ch]">
               {t(project.problem)}
             </p>
-          </div>
+          </RubberBlock>
 
-          <div className="lg:col-span-7 space-y-4">
+          <RubberBlock skewFactor={-0.85} driftFactor={-8} delay={0.05} className="lg:col-span-7 space-y-4">
             <h2 className="type-heading font-display font-bold text-[#155EEF] dark:text-[#55C7F7]">
               {t(translations.caseStudy.sections.concept).replace(/^\d+\.\s*/, '')}
             </h2>
@@ -134,7 +136,7 @@ export function CaseSemyaView({
             <p className="type-body text-[#0A1322]/75 dark:text-[#EDF3FC]/75 max-w-[65ch]">
               {t(project.visualSystemNotes)}
             </p>
-          </div>
+          </RubberBlock>
         </div>
 
         {/* Process Stages (Real 3-phase sequence) */}
@@ -144,7 +146,13 @@ export function CaseSemyaView({
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {project.processStages.map((stage, idx) => (
-              <div key={idx} className="space-y-2.5">
+              <RubberBlock
+                key={idx}
+                skewFactor={idx % 2 === 0 ? 0.7 : -0.7}
+                driftFactor={idx % 2 === 0 ? 7 : -7}
+                delay={idx * 0.04}
+                className="space-y-2.5"
+              >
                 <p className="type-sm tabular-nums font-semibold text-[#155EEF] dark:text-[#55C7F7]">
                   {t(stage.label)}
                 </p>
@@ -152,14 +160,14 @@ export function CaseSemyaView({
                 <p className="type-body text-[#0A1322]/80 dark:text-[#EDF3FC]/80">
                   {t(stage.description)}
                 </p>
-              </div>
+              </RubberBlock>
             ))}
           </div>
         </div>
 
         {/* Decisions, Applications & System Swatches */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-8 border-t border-[#155EEF]/14 dark:border-white/12">
-          <div className="space-y-4">
+          <RubberBlock skewFactor={0.8} driftFactor={7} className="space-y-4">
             <h2 className="type-heading font-display font-bold">
               {t(translations.caseStudy.sections.decisions).replace(/^\d+\.\s*/, '')}
             </h2>
@@ -173,9 +181,9 @@ export function CaseSemyaView({
                 </li>
               ))}
             </ul>
-          </div>
+          </RubberBlock>
 
-          <div className="space-y-6">
+          <RubberBlock skewFactor={-0.8} driftFactor={-7} delay={0.05} className="space-y-6">
             <div className="space-y-4">
               <h2 className="type-heading font-display font-bold">
                 {t(translations.caseStudy.sections.applications).replace(/^\d+\.\s*/, '')}
@@ -203,7 +211,7 @@ export function CaseSemyaView({
                 ))}
               </span>
             </div>
-          </div>
+          </RubberBlock>
         </div>
       </section>
 

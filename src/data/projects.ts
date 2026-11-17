@@ -915,7 +915,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           brand: 'Whale Audio',
           niche: { ru: 'Музыкальный продакшн', en: 'Music Production' },
           cluster: 'craft',
-          src: '/assets/aistudio/2_a410a25e.png',
+          src: '/assets/aistudio/3_4a5de5f7.png',
           concept: {
             ru: 'Совмещение силуэта глубоководного кита и музыкальной ноты с флагом-хвостом: метафора массивного низкого звука, волны и студийного грува.',
             en: 'Combines a clean whale silhouette with an eighth-note flag tail — picturing deep sub-bass resonance, wave motion, and studio craft.',
@@ -932,7 +932,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           brand: 'SnapFocus',
           niche: { ru: 'Приложение для редактирования фото', en: 'Photo Editing App' },
           cluster: 'tech',
-          src: '/assets/aistudio/2_1_6202e23c.png',
+          src: '/assets/aistudio/9_fc3426cb.png',
           concept: {
             ru: 'Шестилепестковая диафрагма объектива разделена по диагонали на две цветовые половины — процесс съёмки и мгновенной цветокоррекции.',
             en: 'A six-blade optical aperture split diagonally into two ink tones — representing capture paired with instant tonal editing.',
@@ -949,7 +949,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           brand: 'SpinCycle',
           niche: { ru: 'Велосипедный магазин', en: 'Bicycle Shop' },
           cluster: 'craft',
-          src: '/assets/aistudio/3_4a5de5f7.png',
+          src: '/assets/aistudio/4_0cc79231.png',
           concept: {
             ru: 'Велосипедное колесо и перекладины спиц разрезаны стремительной S-монограммой, сходящей на конус как шоссейный вираж.',
             en: 'A spoked bicycle wheel sliced diagonally by a taut S-monogram, echoing road speed and mechanical precision.',
@@ -966,7 +966,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           brand: 'Aroma Craft',
           niche: { ru: 'Кофейня', en: 'Specialty Coffee & Roastery' },
           cluster: 'lifestyle',
-          src: '/assets/aistudio/4_0cc79231.png',
+          src: '/assets/aistudio/5_1_5cd96f57.png',
           concept: {
             ru: 'Круглая эмблема обжарщика: кофейная чашка плавно переходит в зерно, обрамлена перекрещёнными совками для зёрен и вьющимся паром с листьями.',
             en: 'Roastery crest uniting a coffee cup cut with a roasted bean silhouette, crossed tasting scoops, and aromatic rising steam.',
@@ -1000,7 +1000,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           brand: 'Double Click',
           niche: { ru: 'Креативное агентство', en: 'Creative Agency' },
           cluster: 'tech',
-          src: '/assets/aistudio/5_1_5cd96f57.png',
+          src: '/assets/aistudio/2_a410a25e.png',
           concept: {
             ru: 'Две смещённые литеры «K», пронзённые единым диагональным лучом: двойной импульс, двойная буква имени и щелчок смены кадра.',
             en: 'Twin interlocking K-stems pierced by a single diagonal stroke — embodying double momentum and a decisive click.',
@@ -1017,7 +1017,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           brand: 'Tool & Thread',
           niche: { ru: 'Творческая мастерская', en: 'Creative Studio & Workshop' },
           cluster: 'craft',
-          src: '/assets/aistudio/6_d87289df.png',
+          src: '/assets/aistudio/2_1_6202e23c.png',
           concept: {
             ru: 'Ассамбляж ремесленных инструментов — ножницы, клубок, игла с нитью, карандаш и киянка — собран в лёгкий органический букет.',
             en: 'Craft assemblage combining shears, yarn, needle-and-thread, pencil, and mallet into one balanced studio botanical silhouette.',
@@ -1034,7 +1034,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           brand: 'TULS Marine',
           niche: { ru: 'Парусный спорт', en: 'Sailing & Maritime Club' },
           cluster: 'craft',
-          src: '/assets/aistudio/7_1a85b4f3.png',
+          src: '/assets/aistudio/8_4ec4da40.png',
           concept: {
             ru: 'Геральдический щит яхт-клуба: вертикальная колонка букв TULS уравновешивает два натянутых паруса и три дуги волн.',
             en: 'Nautical shield crest balancing stacked vertical TULS lettering alongside twin wind-filled sails and sweeping waves.',
@@ -1051,7 +1051,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           brand: 'Ascent Peak',
           niche: { ru: 'Финансовые услуги', en: 'Financial Advisory & Growth' },
           cluster: 'lifestyle',
-          src: '/assets/aistudio/8_4ec4da40.png',
+          src: '/assets/aistudio/6_d87289df.png',
           concept: {
             ru: 'Три пика, восходящие в монограмму «A»: внутренняя стрела роста указывает на вершину с белым заснеженным изломом.',
             en: 'Tri-peak geometry anchored inside an A-frame ascent, framing a clean upward chevron toward a crisp summit ridge.',
@@ -1068,7 +1068,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
           brand: 'CloudFlow',
           niche: { ru: 'Облачный сервис', en: 'Cloud SaaS Platform' },
           cluster: 'tech',
-          src: '/assets/aistudio/9_fc3426cb.png',
+          src: '/assets/aistudio/7_1a85b4f3.png',
           concept: {
             ru: 'Силуэт облака рассечён восходящей стрелкой-потоком: мгновенный аплоад, масштабирование инфраструктуры и скорость передачи данных.',
             en: 'Clean cloud mass pierced upward by a sweeping trajectory arrow — expressing effortless upload, throughput, and cloud scale.',
@@ -1480,7 +1480,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
     coverBg: '#FFFFFF',
     isLogoCover: true,
     preserveTypographyMedia: true,
-    heroImage: '/assets/aistudio/________1_v2_54930af9.webp',
+    heroImage: '/assets/aistudio/________1_v2__1__9a171c73.png',
     secondaryImages: [
       '/assets/aistudio/_____1_14cdffdb.png',
       '/assets/aistudio/Frame_2_15061e1a.webp',
@@ -1504,7 +1504,7 @@ export const DEFAULT_PROJECTS: ProjectCase[] = [
       {
         id: 'os-pattern',
         code: '02 · PATTERN',
-        src: '/assets/aistudio/________1_v2_54930af9.webp',
+        src: '/assets/aistudio/________1_v2__1__9a171c73.png',
         group: 'identity',
         surfaceBg: '#DCE1E6',
         title: {

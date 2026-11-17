@@ -31,7 +31,7 @@ export function CasePafosView({
         backgroundImage:
           'radial-gradient(ellipse 65% 42% at 50% 0%, rgba(230, 0, 126, 0.2), transparent 68%)',
       }}
-      className="dark min-h-screen bg-[#08060A] text-[#F4F1EA] pb-20 overflow-x-hidden"
+      className="dark min-h-screen bg-[#08060A] text-[#F4F1EA] pb-20 overflow-x-clip"
     >
       <CaseTopUtilityBar
         slotCode={project.slotCode}
@@ -48,27 +48,29 @@ export function CasePafosView({
           <RubberText text={cleanTitle} stretchStrength={0.85} className="justify-center" />
         </h1>
 
-        <p className="type-body text-white/78 max-w-[58ch] mt-4">
-          {t(project.subtitle)}
-        </p>
+        <RubberBlock immediate skewFactor={0.45} driftFactor={4} className="flex flex-col items-center">
+          <p className="type-body text-white/78 max-w-[58ch] mt-4">
+            {t(project.subtitle)}
+          </p>
 
-        {project.brandbookData && (
-          <div className="mt-6">
-            <button
-              type="button"
-              onClick={() => slidesRef.current?.scrollIntoView({ behavior: 'smooth' })}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#E6007E] hover:bg-[#FF1C96] text-white type-sm font-semibold rounded-[6px] transition-colors duration-150"
-            >
-              <span>
-                {lang === 'ru' ? 'Листать весь брендбук' : 'Open brand guidelines'}
-              </span>
-              <ArrowDownRight className="w-4 h-4" />
-            </button>
-          </div>
-        )}
+          {project.brandbookData && (
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={() => slidesRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#E6007E] hover:bg-[#FF1C96] text-white type-sm font-semibold rounded-[6px] transition-colors duration-150"
+              >
+                <span>
+                  {lang === 'ru' ? 'Листать весь брендбук' : 'Open brand guidelines'}
+                </span>
+                <ArrowDownRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+        </RubberBlock>
 
         {project.heroImage && (
-          <RubberBlock immediate skewFactor={-0.45} driftFactor={-4} className="w-full max-w-[1160px] mt-10">
+          <RubberBlock immediate skewFactor={-0.65} driftFactor={-6} className="w-full max-w-[1160px] mt-10">
             <button
               type="button"
               onClick={() =>
@@ -92,7 +94,7 @@ export function CasePafosView({
 
       {/* Main Interactive Brandbook Reader */}
       {project.brandbookData && (
-        <div ref={slidesRef} className="my-4">
+        <div ref={slidesRef} className="scroll-mt-20 my-4">
           <BrandbookShowcase
             slides={project.brandbookData.slides}
             accentColor={project.theme.accent}
@@ -103,28 +105,28 @@ export function CasePafosView({
 
       {/* Nocturnal Philosophy & VIP Visual System */}
       <section className="max-w-[1380px] mx-auto px-4 sm:px-8 py-12 space-y-12">
-        <div className="max-w-[65ch] space-y-3">
+        <RubberBlock skewFactor={0.65} driftFactor={6} className="max-w-[65ch] space-y-3">
           <h2 className="type-heading font-display font-bold text-white">
             {t(translations.caseStudy.sections.task).replace(/^\d+\.\s*/, '')}
           </h2>
           <p className="type-body text-white/82">{t(project.task)}</p>
-        </div>
+        </RubberBlock>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-8 border-t border-white/12">
-          <div className="lg:col-span-5 space-y-3">
+          <RubberBlock skewFactor={0.85} driftFactor={8} className="lg:col-span-5 space-y-3">
             <h2 className="type-heading font-display font-bold text-[#FF77BF]">
               {t(translations.caseStudy.sections.problem).replace(/^\d+\.\s*/, '')}
             </h2>
             <p className="type-body text-white/82 max-w-[60ch]">{t(project.problem)}</p>
-          </div>
+          </RubberBlock>
 
-          <div className="lg:col-span-7 space-y-4">
+          <RubberBlock skewFactor={-0.85} driftFactor={-8} delay={0.05} className="lg:col-span-7 space-y-4">
             <h2 className="type-heading font-display font-bold text-[#E6007E]">
               {t(translations.caseStudy.sections.concept).replace(/^\d+\.\s*/, '')}
             </h2>
             <p className="type-body text-white/88 max-w-[65ch]">{t(project.concept)}</p>
             <p className="type-body text-white/75 max-w-[65ch]">{t(project.visualSystemNotes)}</p>
-          </div>
+          </RubberBlock>
         </div>
 
         <div className="pt-8 border-t border-white/12">
@@ -133,7 +135,13 @@ export function CasePafosView({
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {project.processStages.map((stage, i) => (
-              <div key={i} className="space-y-2.5">
+              <RubberBlock
+                key={i}
+                skewFactor={i % 2 === 0 ? 0.7 : -0.7}
+                driftFactor={i % 2 === 0 ? 7 : -7}
+                delay={i * 0.04}
+                className="space-y-2.5"
+              >
                 <p className="type-sm tabular-nums font-semibold text-[#FF77BF]">
                   {t(stage.label)}
                 </p>
@@ -141,13 +149,13 @@ export function CasePafosView({
                   {t(stage.title)}
                 </h3>
                 <p className="type-body text-white/76">{t(stage.description)}</p>
-              </div>
+              </RubberBlock>
             ))}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-8 border-t border-white/12">
-          <div className="space-y-4">
+          <RubberBlock skewFactor={0.8} driftFactor={7} className="space-y-4">
             <h2 className="type-heading font-display font-bold text-white">
               {t(translations.caseStudy.sections.decisions).replace(/^\d+\.\s*/, '')}
             </h2>
@@ -161,9 +169,9 @@ export function CasePafosView({
                 </li>
               ))}
             </ul>
-          </div>
+          </RubberBlock>
 
-          <div className="space-y-6">
+          <RubberBlock skewFactor={-0.8} driftFactor={-7} delay={0.05} className="space-y-6">
             <div className="space-y-4">
               <h2 className="type-heading font-display font-bold text-white">
                 {t(translations.caseStudy.sections.applications).replace(/^\d+\.\s*/, '')}
@@ -191,7 +199,7 @@ export function CasePafosView({
                 ))}
               </span>
             </div>
-          </div>
+          </RubberBlock>
         </div>
       </section>
 

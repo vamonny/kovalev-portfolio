@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useSound } from '../context/SoundContext';
 import { translations } from '../i18n/translations';
 import { RubberBlock } from '../components/RubberMotion';
+import { RubberText } from '../components/RubberText';
 
 const EMAIL = 'vamonny06@gmail.com';
 const TELEGRAM = '@vamonny';
@@ -77,11 +78,16 @@ export function ContactsPage() {
   return (
     <div className="bg-[#EFEFE9] dark:bg-[#0C0C0F] text-[#0B0B0B] dark:text-[#EFEFE9] min-h-screen pt-20 sm:pt-24 pb-20 px-4 sm:px-8 transition-colors duration-200 overflow-x-hidden">
       <div className="max-w-[1380px] mx-auto">
-        <RubberBlock immediate skewFactor={0.5} driftFactor={5} className="pt-2 pb-10 border-b border-[#0B0B0B]/14 dark:border-white/14">
+        <RubberBlock immediate skewFactor={0.65} driftFactor={6} className="pt-2 pb-10 border-b border-[#0B0B0B]/14 dark:border-white/14">
           <h1 className="font-display font-extrabold tracking-[-0.042em] leading-[0.95] text-[clamp(2.25rem,4.5vw,4.1rem)] max-w-4xl mb-5 text-balance-safe">
-            {lang === 'ru'
-              ? 'Обсудим задачу и сделаем чисто'
-              : 'Let’s build something clean and sharp'}
+            <RubberText
+              text={
+                lang === 'ru'
+                  ? 'Обсудим задачу и сделаем чисто'
+                  : 'Let’s build something clean and sharp'
+              }
+              stretchStrength={0.85}
+            />
           </h1>
           <p className="type-body text-[#0B0B0B]/80 dark:text-[#EFEFE9]/80 max-w-[60ch]">
             {t(translations.contacts.lead)}
@@ -90,7 +96,7 @@ export function ContactsPage() {
 
         <div className="pt-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           {/* Direct Channels */}
-          <div className="lg:col-span-5 space-y-10">
+          <RubberBlock immediate skewFactor={0.95} driftFactor={8} className="lg:col-span-5 space-y-10">
             <div>
               <h2 className="type-heading font-display font-bold mb-4">
                 {t(translations.contacts.directChannels)}
@@ -200,10 +206,10 @@ export function ContactsPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </RubberBlock>
 
           {/* Single-Surface Inquiry Form */}
-          <div className="lg:col-span-7 bg-[#141418] text-[#EFEFE9] rounded-[12px] p-6 sm:p-10 border border-white/12">
+          <RubberBlock immediate skewFactor={-0.95} driftFactor={-8} delay={0.05} className="lg:col-span-7 bg-[#141418] text-[#EFEFE9] rounded-[12px] p-6 sm:p-10 border border-white/12">
             <h2 className="type-heading font-display font-bold mb-6 pb-4 border-b border-white/12">
               {t(translations.contacts.form.title)}
             </h2>
@@ -366,7 +372,7 @@ export function ContactsPage() {
                 </div>
               </form>
             )}
-          </div>
+          </RubberBlock>
         </div>
       </div>
     </div>

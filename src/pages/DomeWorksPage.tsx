@@ -6,6 +6,8 @@ import { useProjects } from '../context/ProjectsContext';
 import { useSound } from '../context/SoundContext';
 import { useCurtainNavigation } from '../context/NavigationContext';
 import { DomeGallery, DomeGalleryHandle, DomeImageItem } from '../components/DomeGallery';
+import { RubberText } from '../components/RubberText';
+import { RubberBlock } from '../components/RubberMotion';
 
 type DomeFilter = 'all' | 'slot-01' | 'slot-02' | 'slot-03' | 'slot-04' | 'slot-05' | 'slot-06';
 
@@ -229,10 +231,10 @@ export function DomeWorksPage() {
             isLightTheme ? 'text-[#0B0B0B]' : 'text-[#EFEFE9]'
           }`}
         >
-          {lang === 'ru' ? '3D сфера работ' : '3D works sphere'}
+          <RubberText text={lang === 'ru' ? '3D сфера работ' : '3D works sphere'} stretchStrength={0.75} />
         </h1>
 
-        <div className="pointer-events-auto flex flex-wrap items-center gap-2">
+        <RubberBlock immediate skewFactor={-0.35} driftFactor={-3} className="pointer-events-auto flex flex-wrap items-center gap-2">
           <div
             role="tablist"
             aria-label={lang === 'ru' ? 'Фильтр 3D сферы' : '3D sphere filter'}
@@ -285,7 +287,7 @@ export function DomeWorksPage() {
               {grayscale ? (lang === 'ru' ? 'Ч/Б' : 'B&W') : lang === 'ru' ? 'Цвет' : 'Color'}
             </span>
           </button>
-        </div>
+        </RubberBlock>
       </div>
 
       {/* Inspected Work Action Bar */}

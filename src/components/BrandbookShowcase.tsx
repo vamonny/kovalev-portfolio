@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Expand } from 'lucide-react';
 import { BilingualText } from '../i18n/translations';
 import { useLanguage } from '../context/LanguageContext';
 import { useSound } from '../context/SoundContext';
+import { RubberBlock } from './RubberMotion';
 
 export type BrandbookSectionKey = 'intro' | 'logo' | 'system' | 'carriers';
 
@@ -89,17 +90,22 @@ export function BrandbookShowcase({
 
   return (
     <section className="max-w-[1380px] mx-auto px-4 sm:px-8 py-12 sm:py-16">
-      <div className="bg-[#120E14] text-[#F4F1EA] border border-white/12 p-5 sm:p-8 lg:p-10 shadow-[0_28px_70px_-28px_rgba(11,11,11,0.45)]">
-        {/* Top Bar: Header + Connected Section Filter */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-white/12">
-          <h2 className="type-heading font-display font-bold text-[#F4F1EA]">
-            {lang === 'ru' ? 'Интерактивный просмотр гайдлайна' : 'Interactive brandbook reader'}
-          </h2>
+      <div className="bg-[#120E14] text-[#F4F1EA] border border-white/12 px-5 pb-5 sm:px-8 sm:pb-8 lg:px-10 lg:pb-10 shadow-[0_28px_70px_-28px_rgba(11,11,11,0.45)]">
+        {/* Sticky Top Bar: Header + Connected Section Filter */}
+        <div className="sticky top-[64px] sm:top-[72px] z-30 -mx-5 sm:-mx-8 lg:-mx-10 px-5 sm:px-8 lg:px-10 py-4 bg-[#120E14]/94 backdrop-blur-md flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/12">
+          <div className="flex items-center gap-3">
+            <h2 className="type-body sm:type-heading font-display font-bold text-[#F4F1EA]">
+              {lang === 'ru' ? 'Интерактивный гайдлайн' : 'Interactive brandbook'}
+            </h2>
+            <span className="font-mono-tabular type-sm text-white/65">
+              {String(safeIndex + 1).padStart(2, '0')} / {String(visibleSlides.length).padStart(2, '0')}
+            </span>
+          </div>
 
           <div
             role="tablist"
             aria-label={lang === 'ru' ? 'Разделы брендбука' : 'Brandbook sections'}
-            className="inline-flex flex-wrap items-center gap-1 p-1 bg-white/[0.06] rounded-[6px]"
+            className="flex items-center gap-1 p-1 bg-white/[0.06] rounded-[6px] overflow-x-auto no-scrollbar max-w-full"
           >
             {filterOptions.map((opt) => {
               const active = sectionFilter === opt.key;
@@ -129,7 +135,7 @@ export function BrandbookShowcase({
         </div>
 
         {/* Main 16:9 Stage */}
-        <div className="mt-6 sm:mt-8">
+        <RubberBlock skewFactor={0.45} driftFactor={5} className="mt-6 sm:mt-8">
           <div className="relative bg-[#0B090C] border border-white/12 overflow-hidden group">
             <button
               type="button"
@@ -247,7 +253,7 @@ export function BrandbookShowcase({
               );
             })}
           </div>
-        </div>
+        </RubberBlock>
       </div>
     </section>
   );

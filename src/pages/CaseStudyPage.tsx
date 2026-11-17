@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
 import { useProjects } from '../context/ProjectsContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useCurtainNavigation } from '../context/NavigationContext';
@@ -103,13 +102,11 @@ function buildProjectGallery(
 
 export function CaseStudyPage() {
   const { slug } = useParams<{ slug: string }>();
-  const { isDark } = useTheme();
   const { lang, t } = useLanguage();
   const { projects, getProjectBySlug } = useProjects();
   const { navigateWithCurtain } = useCurtainNavigation();
   const scrollVel = useRubberScroll(0.055);
 
-  const [showStickyTitle, setShowStickyTitle] = useState(false);
   const [lightboxState, setLightboxState] = useState<{
     items: LightboxItem[];
     index: number;
@@ -119,15 +116,6 @@ export function CaseStudyPage() {
     setLightboxState(null);
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [slug]);
-
-  useEffect(() => {
-    const onScroll = () => {
-      setShowStickyTitle(window.scrollY > 360);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   const project = slug ? getProjectBySlug(slug) : undefined;
 
@@ -205,8 +193,6 @@ export function CaseStudyPage() {
     scrollVel,
   };
 
-  const forceDarkGlass = project.id === 'slot-02' || project.id === 'slot-05';
-
   const renderCaseView = () => {
     switch (project.id) {
       case 'slot-01':
@@ -228,34 +214,6 @@ export function CaseStudyPage() {
 
   return (
     <>
-      {/* Pinned Top-Center Mini-Title Lockup on Scroll */}
-      <div
-        aria-hidden={!showStickyTitle}
-        style={{
-          opacity: showStickyTitle ? 1 : 0,
-          transform: showStickyTitle ? 'translate3d(-50%, 0, 0)' : 'translate3d(-50%, -14px, 0)',
-          transition: 'opacity 240ms ease, transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-        }}
-        className={`fixed top-[68px] sm:top-[76px] left-1/2 z-30 pointer-events-none text-center px-4 py-1.5 rounded-[8px] ${
-          isDark || forceDarkGlass ? 'liquid-glass-dark' : 'liquid-glass-light'
-        }`}
-      >
-        <p
-          className={`font-display font-bold type-sm leading-tight ${
-            forceDarkGlass ? 'text-[#EFEFE9]' : 'text-[#0B0B0B] dark:text-[#EFEFE9]'
-          }`}
-        >
-          {cleanTitle}
-        </p>
-        <p
-          className={`text-[13px] mt-0.5 ${
-            forceDarkGlass ? 'text-[#EFEFE9]/70' : 'text-[#0B0B0B]/70 dark:text-[#EFEFE9]/70'
-          }`}
-        >
-          {t(project.categoryLabel)}
-        </p>
-      </div>
-
       {renderCaseView()}
 
       <CaseLightbox

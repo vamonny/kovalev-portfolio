@@ -9,6 +9,7 @@ import { useRubberScroll } from '../hooks/useRubberScroll';
 import { ProjectCase } from '../data/projects';
 import { translations } from '../i18n/translations';
 import { RubberText } from '../components/RubberText';
+import { RubberBlock } from '../components/RubberMotion';
 import {
   PortfolioWarpCarousel,
   PortfolioWarpCarouselHandle,
@@ -72,28 +73,30 @@ export function HomePage() {
           />
         </h1>
 
-        <p className="type-body text-[#0B0B0B]/75 dark:text-[#EFEFE9]/75 max-w-[56ch] mt-2.5 sm:mt-3">
-          {lang === 'ru'
-            ? 'Графический дизайн, типографика и веб-интерфейсы, собранные в единый выразительный ритм.'
-            : 'Graphic design, typography, and digital interfaces crafted as a cohesive living system.'}
-        </p>
+        <RubberBlock immediate skewFactor={0.55} driftFactor={5} className="flex flex-col items-center">
+          <p className="type-body text-[#0B0B0B]/75 dark:text-[#EFEFE9]/75 max-w-[56ch] mt-2.5 sm:mt-3">
+            {lang === 'ru'
+              ? 'Графический дизайн, типографика и веб-интерфейсы, собранные в единый выразительный ритм.'
+              : 'Graphic design, typography, and digital interfaces crafted as a cohesive living system.'}
+          </p>
 
-        <div className="mt-3.5 sm:mt-4">
-          <button
-            type="button"
-            onClick={() =>
-              navigateWithCurtain('/works', {
-                italicLine: lang === 'ru' ? 'АРХИВ' : 'SELECTED',
-                regularLine: lang === 'ru' ? 'РАБОТЫ' : 'WORKS',
-              })
-            }
-            onMouseEnter={() => playHover()}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0B0B0B] dark:bg-[#E7FA53] text-[#EFEFE9] dark:text-[#0B0B0B] hover:bg-[#D61914] dark:hover:bg-white hover:text-white dark:hover:text-[#0B0B0B] type-sm font-semibold rounded-[6px] transition-colors duration-200"
-          >
-            <span>{t(translations.home.heroExplore)}</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </button>
-        </div>
+          <div className="mt-3.5 sm:mt-4">
+            <button
+              type="button"
+              onClick={() =>
+                navigateWithCurtain('/works', {
+                  italicLine: lang === 'ru' ? 'АРХИВ' : 'SELECTED',
+                  regularLine: lang === 'ru' ? 'РАБОТЫ' : 'WORKS',
+                })
+              }
+              onMouseEnter={() => playHover()}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0B0B0B] dark:bg-[#E7FA53] text-[#EFEFE9] dark:text-[#0B0B0B] hover:bg-[#D61914] dark:hover:bg-white hover:text-white dark:hover:text-[#0B0B0B] type-sm font-semibold rounded-[6px] transition-colors duration-200"
+            >
+              <span>{t(translations.home.heroExplore)}</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </button>
+          </div>
+        </RubberBlock>
       </section>
 
       {/* Flex-Filling Interactive WebGL Showcase Stage (Fits 100% Inside Single Screen) */}
@@ -126,56 +129,58 @@ export function HomePage() {
         </div>
 
         {currentProject && (
-          <div className="shrink-0 border-t border-[#0B0B0B]/12 dark:border-white/12 px-4 sm:px-8 py-2.5 flex flex-wrap items-center justify-between gap-4 bg-[#EFEFE9] dark:bg-[#0C0C0F] transition-colors duration-200">
-            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 min-w-0">
-              <span className="type-sm tabular-nums font-medium text-[#0B0B0B]/60 dark:text-[#EFEFE9]/60 shrink-0">
-                {activeIndex + 1} / {projects.length}
-              </span>
+          <RubberBlock immediate skewFactor={-0.35} driftFactor={-3} className="shrink-0">
+            <div className="border-t border-[#0B0B0B]/12 dark:border-white/12 px-4 sm:px-8 py-2.5 flex flex-wrap items-center justify-between gap-4 bg-[#EFEFE9] dark:bg-[#0C0C0F] transition-colors duration-200">
+              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 min-w-0">
+                <span className="type-sm tabular-nums font-medium text-[#0B0B0B]/60 dark:text-[#EFEFE9]/60 shrink-0">
+                  {activeIndex + 1} / {projects.length}
+                </span>
 
-              <button
-                type="button"
-                onClick={() => openProject(currentProject)}
-                onMouseEnter={() => playHover()}
-                className="font-display font-bold text-base sm:text-lg tracking-[-0.02em] text-[#0B0B0B] dark:text-[#EFEFE9] hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-colors duration-150 text-left truncate max-w-[68vw] sm:max-w-[44vw]"
-              >
-                {shortTitle}
-              </button>
-
-              <span className="hidden md:inline-block type-sm text-[#0B0B0B]/60 dark:text-[#EFEFE9]/60 truncate">
-                {t(currentProject.categoryLabel)}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-3 shrink-0 ml-auto">
-              <div className="flex items-center bg-[#E5E4DC] dark:bg-[#16161B] p-0.5 rounded-[6px]">
                 <button
                   type="button"
-                  onClick={() => carouselRef.current?.prev()}
-                  aria-label={lang === 'ru' ? 'Предыдущий проект' : 'Previous project'}
-                  className="w-8 h-8 rounded-[5px] hover:bg-[#0B0B0B] dark:hover:bg-[#E7FA53] hover:text-[#EFEFE9] dark:hover:text-[#0B0B0B] transition-colors duration-150 flex items-center justify-center"
+                  onClick={() => openProject(currentProject)}
+                  onMouseEnter={() => playHover()}
+                  className="font-display font-bold text-base sm:text-lg tracking-[-0.02em] text-[#0B0B0B] dark:text-[#EFEFE9] hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-colors duration-150 text-left truncate max-w-[68vw] sm:max-w-[44vw]"
                 >
-                  <ArrowLeft className="w-4 h-4" />
+                  {shortTitle}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => carouselRef.current?.next()}
-                  aria-label={lang === 'ru' ? 'Следующий проект' : 'Next project'}
-                  className="w-8 h-8 rounded-[5px] hover:bg-[#0B0B0B] dark:hover:bg-[#E7FA53] hover:text-[#EFEFE9] dark:hover:text-[#0B0B0B] transition-colors duration-150 flex items-center justify-center"
-                >
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+
+                <span className="hidden md:inline-block type-sm text-[#0B0B0B]/60 dark:text-[#EFEFE9]/60 truncate">
+                  {t(currentProject.categoryLabel)}
+                </span>
               </div>
 
-              <button
-                type="button"
-                onClick={() => openProject(currentProject)}
-                onMouseEnter={() => playHover()}
-                className="type-sm font-semibold underline underline-offset-4 hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-colors duration-150 whitespace-nowrap"
-              >
-                {lang === 'ru' ? 'Открыть кейс' : 'Open case'}
-              </button>
+              <div className="flex items-center gap-3 shrink-0 ml-auto">
+                <div className="flex items-center bg-[#E5E4DC] dark:bg-[#16161B] p-0.5 rounded-[6px]">
+                  <button
+                    type="button"
+                    onClick={() => carouselRef.current?.prev()}
+                    aria-label={lang === 'ru' ? 'Предыдущий проект' : 'Previous project'}
+                    className="w-8 h-8 rounded-[5px] hover:bg-[#0B0B0B] dark:hover:bg-[#E7FA53] hover:text-[#EFEFE9] dark:hover:text-[#0B0B0B] transition-colors duration-150 flex items-center justify-center"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => carouselRef.current?.next()}
+                    aria-label={lang === 'ru' ? 'Следующий проект' : 'Next project'}
+                    className="w-8 h-8 rounded-[5px] hover:bg-[#0B0B0B] dark:hover:bg-[#E7FA53] hover:text-[#EFEFE9] dark:hover:text-[#0B0B0B] transition-colors duration-150 flex items-center justify-center"
+                  >
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => openProject(currentProject)}
+                  onMouseEnter={() => playHover()}
+                  className="type-sm font-semibold underline underline-offset-4 hover:text-[#D61914] dark:hover:text-[#E7FA53] transition-colors duration-150 whitespace-nowrap"
+                >
+                  {lang === 'ru' ? 'Открыть кейс' : 'Open case'}
+                </button>
+              </div>
             </div>
-          </div>
+          </RubberBlock>
         )}
       </section>
     </div>

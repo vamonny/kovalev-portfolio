@@ -3,6 +3,7 @@ import { Expand } from 'lucide-react';
 import { BilingualText } from '../i18n/translations';
 import { useLanguage } from '../context/LanguageContext';
 import { useSound } from '../context/SoundContext';
+import { RubberBlock } from './RubberMotion';
 
 export type IdentityCarrierGroup = 'identity' | 'print' | 'merch' | 'digital';
 
@@ -70,9 +71,9 @@ export function IdentityShowcase({
   );
 
   return (
-    <section className="max-w-[1380px] mx-auto px-4 sm:px-8 py-12 sm:py-16">
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-[#0B0B0B]/12 dark:border-white/12 mb-8">
-        <h2 className="type-heading font-display font-bold text-[#0B0B0B] dark:text-[#EFEFE9]">
+    <section className="max-w-[1380px] mx-auto px-4 sm:px-8 pb-12 sm:pb-16">
+      <div className="sticky top-[64px] sm:top-[72px] z-30 -mx-4 sm:-mx-8 px-4 sm:px-8 py-3.5 bg-[#F2F6FA]/94 dark:bg-[#0B1522]/94 backdrop-blur-md flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-[#0B4F78]/14 dark:border-white/12 mb-8">
+        <h2 className="type-body sm:type-heading font-display font-bold text-[#0B0B0B] dark:text-[#EFEFE9]">
           {lang === 'ru'
             ? 'Фирменный стиль, полиграфия, мерч и веб'
             : 'Logo, print, merchandise and web UI'}
@@ -81,7 +82,7 @@ export function IdentityShowcase({
         <div
           role="tablist"
           aria-label={lang === 'ru' ? 'Группы носителей' : 'Touchpoint groups'}
-          className="inline-flex flex-wrap items-center gap-1 p-1 bg-[#E5E4DC] dark:bg-[#16161B] rounded-[6px]"
+          className="flex items-center gap-1 p-1 bg-[#E5E4DC] dark:bg-[#16161B] rounded-[6px] overflow-x-auto no-scrollbar max-w-full"
         >
           {filters.map((f) => {
             const active = group === f.key;
@@ -110,7 +111,8 @@ export function IdentityShowcase({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <RubberBlock skewFactor={0.45} driftFactor={5}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {visiblePlates.map((plate) => {
           const titleStr = t(plate.title);
           const isDarkPlate = plate.group === 'digital';
@@ -172,7 +174,8 @@ export function IdentityShowcase({
             </button>
           );
         })}
-      </div>
+        </div>
+      </RubberBlock>
     </section>
   );
 }

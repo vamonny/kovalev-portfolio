@@ -31,7 +31,7 @@ export function CaseMarketplaceView({
         backgroundImage:
           'radial-gradient(ellipse 68% 42% at 50% 0%, rgba(255, 67, 147, 0.14), transparent 70%)',
       }}
-      className="dark min-h-screen bg-[#0E0F14] text-[#EFEFE9] pb-20 overflow-x-hidden"
+      className="dark min-h-screen bg-[#0E0F14] text-[#EFEFE9] pb-20 overflow-x-clip"
     >
       <CaseTopUtilityBar
         slotCode={project.slotCode}
@@ -48,27 +48,29 @@ export function CaseMarketplaceView({
           <RubberText text={cleanTitle} stretchStrength={0.85} className="justify-center" />
         </h1>
 
-        <p className="type-body text-white/78 max-w-[58ch] mt-4">
-          {t(project.subtitle)}
-        </p>
+        <RubberBlock immediate skewFactor={0.45} driftFactor={4} className="flex flex-col items-center">
+          <p className="type-body text-white/78 max-w-[58ch] mt-4">
+            {t(project.subtitle)}
+          </p>
 
-        {project.marketplaceSeries && (
-          <div className="mt-6">
-            <button
-              type="button"
-              onClick={() => seriesRef.current?.scrollIntoView({ behavior: 'smooth' })}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#E7FA53] hover:bg-white text-[#0B0B0B] type-sm font-semibold rounded-[6px] transition-colors duration-150"
-            >
-              <span>
-                {lang === 'ru' ? 'Смотреть 5 серий карточек' : 'Browse 5 product series'}
-              </span>
-              <ArrowDownRight className="w-4 h-4" />
-            </button>
-          </div>
-        )}
+          {project.marketplaceSeries && (
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={() => seriesRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#E7FA53] hover:bg-white text-[#0B0B0B] type-sm font-semibold rounded-[6px] transition-colors duration-150"
+              >
+                <span>
+                  {lang === 'ru' ? 'Смотреть 5 серий карточек' : 'Browse 5 product series'}
+                </span>
+                <ArrowDownRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+        </RubberBlock>
 
         {(project.heroImage || project.coverImage) && (
-          <RubberBlock immediate skewFactor={-0.45} driftFactor={-4} className="w-full max-w-[1160px] mt-10">
+          <RubberBlock immediate skewFactor={-0.65} driftFactor={-6} className="w-full max-w-[1160px] mt-10">
             <button
               type="button"
               onClick={() =>
@@ -92,7 +94,7 @@ export function CaseMarketplaceView({
 
       {/* Main Interactive Showcase */}
       {project.marketplaceSeries && (
-        <div ref={seriesRef} className="border-y border-white/10 bg-[#12131A] my-4">
+        <div ref={seriesRef} className="scroll-mt-20 border-y border-white/10 bg-[#12131A] my-4">
           <MarketplaceSeriesShowcase
             series={project.marketplaceSeries}
             accentColor="#E7FA53"
@@ -103,28 +105,28 @@ export function CaseMarketplaceView({
 
       {/* Project Brief & Shelf Strategy */}
       <section className="max-w-[1380px] mx-auto px-4 sm:px-8 py-12 space-y-12">
-        <div className="max-w-[65ch] space-y-3">
+        <RubberBlock skewFactor={0.65} driftFactor={6} className="max-w-[65ch] space-y-3">
           <h2 className="type-heading font-display font-bold text-white">
             {t(translations.caseStudy.sections.task).replace(/^\d+\.\s*/, '')}
           </h2>
           <p className="type-body text-white/82">{t(project.task)}</p>
-        </div>
+        </RubberBlock>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-8 border-t border-white/12">
-          <div className="lg:col-span-5 space-y-3">
+          <RubberBlock skewFactor={0.85} driftFactor={8} className="lg:col-span-5 space-y-3">
             <h2 className="type-heading font-display font-bold text-[#FF4393]">
               {t(translations.caseStudy.sections.problem).replace(/^\d+\.\s*/, '')}
             </h2>
             <p className="type-body text-white/80 max-w-[60ch]">{t(project.problem)}</p>
-          </div>
+          </RubberBlock>
 
-          <div className="lg:col-span-7 space-y-4">
+          <RubberBlock skewFactor={-0.85} driftFactor={-8} delay={0.05} className="lg:col-span-7 space-y-4">
             <h2 className="type-heading font-display font-bold text-[#E7FA53]">
               {t(translations.caseStudy.sections.concept).replace(/^\d+\.\s*/, '')}
             </h2>
             <p className="type-body text-white/88 max-w-[65ch]">{t(project.concept)}</p>
             <p className="type-body text-white/75 max-w-[65ch]">{t(project.visualSystemNotes)}</p>
-          </div>
+          </RubberBlock>
         </div>
 
         <div className="pt-8 border-t border-white/12">
@@ -133,7 +135,13 @@ export function CaseMarketplaceView({
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {project.processStages.map((stage, i) => (
-              <div key={i} className="space-y-2.5">
+              <RubberBlock
+                key={i}
+                skewFactor={i % 2 === 0 ? 0.7 : -0.7}
+                driftFactor={i % 2 === 0 ? 7 : -7}
+                delay={i * 0.04}
+                className="space-y-2.5"
+              >
                 <p className="type-sm tabular-nums font-semibold text-[#E7FA53]">
                   {t(stage.label)}
                 </p>
@@ -141,13 +149,13 @@ export function CaseMarketplaceView({
                   {t(stage.title)}
                 </h3>
                 <p className="type-body text-white/76">{t(stage.description)}</p>
-              </div>
+              </RubberBlock>
             ))}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-8 border-t border-white/12">
-          <div className="space-y-4">
+          <RubberBlock skewFactor={0.8} driftFactor={7} className="space-y-4">
             <h2 className="type-heading font-display font-bold text-white">
               {t(translations.caseStudy.sections.decisions).replace(/^\d+\.\s*/, '')}
             </h2>
@@ -161,9 +169,9 @@ export function CaseMarketplaceView({
                 </li>
               ))}
             </ul>
-          </div>
+          </RubberBlock>
 
-          <div className="space-y-6">
+          <RubberBlock skewFactor={-0.8} driftFactor={-7} delay={0.05} className="space-y-6">
             <div className="space-y-4">
               <h2 className="type-heading font-display font-bold text-white">
                 {t(translations.caseStudy.sections.applications).replace(/^\d+\.\s*/, '')}
@@ -191,7 +199,7 @@ export function CaseMarketplaceView({
                 ))}
               </span>
             </div>
-          </div>
+          </RubberBlock>
         </div>
       </section>
 

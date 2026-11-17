@@ -25,7 +25,7 @@ export function CaseEncyclopediaView({
   const pdfUrl = project.encyclopediaData?.pdfUrl;
 
   return (
-    <div className="min-h-screen bg-[#F4ECE0] dark:bg-[#12110E] text-[#171512] dark:text-[#F3EBDC] pb-20 overflow-x-hidden transition-colors duration-200">
+    <div className="min-h-screen bg-[#F4ECE0] dark:bg-[#12110E] text-[#171512] dark:text-[#F3EBDC] pb-20 overflow-x-clip transition-colors duration-200">
       <CaseTopUtilityBar
         slotCode={project.slotCode}
         year={project.year}
@@ -40,28 +40,30 @@ export function CaseEncyclopediaView({
           <RubberText text={cleanTitle} stretchStrength={0.85} className="justify-center" />
         </h1>
 
-        <p className="type-body text-[#171512]/80 dark:text-[#F3EBDC]/80 max-w-[58ch] mt-4">
-          {t(project.subtitle)}
-        </p>
+        <RubberBlock immediate skewFactor={0.45} driftFactor={4} className="flex flex-col items-center">
+          <p className="type-body text-[#171512]/80 dark:text-[#F3EBDC]/80 max-w-[58ch] mt-4">
+            {t(project.subtitle)}
+          </p>
 
-        {pdfUrl && (
-          <div className="mt-6">
-            <a
-              href={pdfUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#0B3AA4] hover:bg-[#082C7D] text-[#F3EBDC] type-sm font-semibold rounded-[6px] transition-colors duration-150"
-            >
-              <BookOpen className="w-4 h-4" />
-              <span>
-                {lang === 'ru' ? 'Скачать полный PDF (61 стр.)' : 'Download full PDF (61 pp.)'}
-              </span>
-            </a>
-          </div>
-        )}
+          {pdfUrl && (
+            <div className="mt-6">
+              <a
+                href={pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#0B3AA4] hover:bg-[#082C7D] text-[#F3EBDC] type-sm font-semibold rounded-[6px] transition-colors duration-150"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>
+                  {lang === 'ru' ? 'Скачать полный PDF (61 стр.)' : 'Download full PDF (61 pp.)'}
+                </span>
+              </a>
+            </div>
+          )}
+        </RubberBlock>
 
         {project.heroImage && (
-          <RubberBlock immediate skewFactor={-0.45} driftFactor={-4} className="w-full max-w-[1160px] mt-10">
+          <RubberBlock immediate skewFactor={-0.65} driftFactor={-6} className="w-full max-w-[1160px] mt-10">
             <button
               type="button"
               onClick={() =>
@@ -97,24 +99,24 @@ export function CaseEncyclopediaView({
 
       {/* Project Brief & Editorial Essay */}
       <section className="max-w-[1380px] mx-auto px-4 sm:px-8 py-12 space-y-12">
-        <div className="max-w-[65ch] space-y-3">
+        <RubberBlock skewFactor={0.65} driftFactor={6} className="max-w-[65ch] space-y-3">
           <h2 className="type-heading font-display font-bold">
             {t(translations.caseStudy.sections.task).replace(/^\d+\.\s*/, '')}
           </h2>
           <p className="type-body text-[#171512]/85 dark:text-[#F3EBDC]/85">{t(project.task)}</p>
-        </div>
+        </RubberBlock>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-8 border-t border-[#171512]/14 dark:border-white/14">
-          <div className="lg:col-span-5 space-y-3">
+          <RubberBlock skewFactor={0.85} driftFactor={8} className="lg:col-span-5 space-y-3">
             <h2 className="type-heading font-display font-bold text-[#0B3AA4] dark:text-[#F6E238]">
               {t(translations.caseStudy.sections.problem).replace(/^\d+\.\s*/, '')}
             </h2>
             <p className="type-body text-[#171512]/85 dark:text-[#F3EBDC]/85 max-w-[60ch]">
               {t(project.problem)}
             </p>
-          </div>
+          </RubberBlock>
 
-          <div className="lg:col-span-7 space-y-4">
+          <RubberBlock skewFactor={-0.85} driftFactor={-8} delay={0.05} className="lg:col-span-7 space-y-4">
             <h2 className="type-heading font-display font-bold text-[#0B3AA4] dark:text-[#F6E238]">
               {t(translations.caseStudy.sections.concept).replace(/^\d+\.\s*/, '')}
             </h2>
@@ -124,7 +126,7 @@ export function CaseEncyclopediaView({
             <p className="type-body text-[#171512]/78 dark:text-[#F3EBDC]/78 max-w-[65ch]">
               {t(project.visualSystemNotes)}
             </p>
-          </div>
+          </RubberBlock>
         </div>
 
         <div className="pt-8 border-t border-[#171512]/14 dark:border-white/14">
@@ -133,7 +135,13 @@ export function CaseEncyclopediaView({
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {project.processStages.map((stage, i) => (
-              <div key={i} className="space-y-2.5">
+              <RubberBlock
+                key={i}
+                skewFactor={i % 2 === 0 ? 0.7 : -0.7}
+                driftFactor={i % 2 === 0 ? 7 : -7}
+                delay={i * 0.04}
+                className="space-y-2.5"
+              >
                 <p className="type-sm tabular-nums font-semibold text-[#0B3AA4] dark:text-[#F6E238]">
                   {t(stage.label)}
                 </p>
@@ -141,13 +149,13 @@ export function CaseEncyclopediaView({
                 <p className="type-body text-[#171512]/80 dark:text-[#F3EBDC]/80">
                   {t(stage.description)}
                 </p>
-              </div>
+              </RubberBlock>
             ))}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-8 border-t border-[#171512]/14 dark:border-white/14">
-          <div className="space-y-4">
+          <RubberBlock skewFactor={0.8} driftFactor={7} className="space-y-4">
             <h2 className="type-heading font-display font-bold">
               {t(translations.caseStudy.sections.decisions).replace(/^\d+\.\s*/, '')}
             </h2>
@@ -161,9 +169,9 @@ export function CaseEncyclopediaView({
                 </li>
               ))}
             </ul>
-          </div>
+          </RubberBlock>
 
-          <div className="space-y-6">
+          <RubberBlock skewFactor={-0.8} driftFactor={-7} delay={0.05} className="space-y-6">
             <div className="space-y-4">
               <h2 className="type-heading font-display font-bold">
                 {t(translations.caseStudy.sections.applications).replace(/^\d+\.\s*/, '')}
@@ -191,7 +199,7 @@ export function CaseEncyclopediaView({
                 ))}
               </span>
             </div>
-          </div>
+          </RubberBlock>
         </div>
       </section>
 
